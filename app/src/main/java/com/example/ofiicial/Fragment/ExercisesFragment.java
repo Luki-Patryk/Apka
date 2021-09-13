@@ -16,11 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.ofiicial.EXERCISES.ExerciseAdd;
 import com.example.ofiicial.EXERCISES.Exercises;
 import com.example.ofiicial.EXERCISES.ExercisesDataBaseAccess;
 import com.example.ofiicial.EXERCISES.ExercisesFilterMenu;
+import com.example.ofiicial.EXERCISES.ExercisesFiltersRecViewAdapter;
 import com.example.ofiicial.EXERCISES.ExercisesListRecViewAdapter;
 import com.example.ofiicial.R;
 
@@ -32,44 +34,48 @@ public class ExercisesFragment extends Fragment
 //    RelativeLayout exercise_template;
 
     private Context mContext;
-
     private ArrayList<Exercises> exercises;
+    private com.example.ofiicial.EXERCISES.ExercisesDataBaseAccess dataBaseAccess;
+    private RecyclerView exercisesRecView;
+    private ExercisesListRecViewAdapter adapter;
+    private EditText search;
+    private Button addExerciseBtn, filterExercisesBtn;
 
-    private ExercisesDataBaseAccess dataBaseAccess;
+    //Enum type for state of sorting when filter Activity is called
+    public enum SortFilter
+    {
+        TYPE_A_Z, TYPE_Z_A, NAME_A_Z, NAME_Z_A;
+    }
+
+    private static SortFilter exercises_filter_sorter;
 
     public ExercisesFragment(Context mContext)
     {
         this.mContext = mContext;
     }
 
-    private RecyclerView exercisesRecView;
-    private ExercisesListRecViewAdapter adapter;
-    private EditText search;
-    private Button addExerciseBtn, filterExercisesBtn;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_exercises, container, false);
         initRecView(view);
 
         adapter = new ExercisesListRecViewAdapter();
+
         exercisesRecView = view.findViewById(R.id.exercisesListRecView);
-        exercisesRecView.setAdapter(adapter);
-        exercisesRecView.setLayoutManager(new LinearLayoutManager(mContext));
         search = view.findViewById(R.id.search_exercises);
         addExerciseBtn = view.findViewById(R.id.btn_add_exercise);
         filterExercisesBtn = view.findViewById(R.id.btn_filter_exercises);
 
+        exercisesRecView.setAdapter(adapter);
+        exercisesRecView.setLayoutManager(new LinearLayoutManager(mContext));
+
         //create instance of databaseAccess class, open database, copy it to array and close database
         dataBaseAccess = ExercisesDataBaseAccess.getInstance(mContext);
-
         dataBaseAccess.open();
         exercises = dataBaseAccess.getExercisesAtoZ();
         dataBaseAccess.close();
-
         adapter.setExercises(exercises);
 
 
@@ -87,7 +93,7 @@ public class ExercisesFragment extends Fragment
             {
                 dataBaseAccess.open();
                 //setting exercises on filtered list with s passed which is actual text converted to string
-                exercises = dataBaseAccess.filterExercises(s.toString());
+                exercises = dataBaseAccess.filterExercisesInSearchField(s.toString());
                 dataBaseAccess.close();
                 adapter.setExercises(exercises);
             }
@@ -117,8 +123,7 @@ public class ExercisesFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                Intent intent = new Intent(mContext, ExercisesFilterMenu.class);
-                startActivity(intent);
+                openFilterActivity();
             }
         });
 
@@ -126,51 +131,10 @@ public class ExercisesFragment extends Fragment
         return view;
     }
 
-
-    /*@Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.sort_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()){
-            case R.id.menu_aToz:
-                dataBaseAccess = ExercisesDataBaseAccess.getInstance(mContext);
-
-                dataBaseAccess.open();
-                exercises = dataBaseAccess.getExercisesAtoZ();
-                dataBaseAccess.close();
-
-                adapter.setExercises(exercises);
-                adapter.notifyDataSetChanged();
-                return true;
-            case R.id.menu_zToa:
-                dataBaseAccess = ExercisesDataBaseAccess.getInstance(mContext);
-
-                dataBaseAccess.open();
-                exercises = dataBaseAccess.getExercisesZtoA();
-                dataBaseAccess.close();
-
-                adapter.setExercises(exercises);
-                adapter.notifyDataSetChanged();
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }*/
-
     private void initRecView(View view)
     {
     }
+
 
     private void openAddActivity()
     {
@@ -179,15 +143,46 @@ public class ExercisesFragment extends Fragment
         startActivityForResult(intent, 1);
     }
 
+    private void openFilterActivity()
+    {
+        //before going into filter activity clear CheckedTypes array, it caused problems with multiplying types and having more than just checked types in it, now it seems to work properly
+        ExercisesFiltersRecViewAdapter.CheckedTypes.clear();
+        Intent intent = new Intent(mContext, ExercisesFilterMenu.class);
+        intent.putExtra("EXERCISES_SORTER", exercises_filter_sorter);
+        startActivityForResult(intent, 0);
+    }
+
     //if the result code is correct, then refresh our exercises array
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        dataBaseAccess.open();
-        exercises = dataBaseAccess.getAllExercises();
-        dataBaseAccess.close();
-        adapter.setExercises(exercises);
-        adapter.notifyDataSetChanged();
+        switch (resultCode)
+        {
+            //In this case, previous activity was adding exercise so we have to just get all exercises from database
+            case 1:
+                dataBaseAccess.open();
+                exercises = dataBaseAccess.getAllExercises();
+                dataBaseAccess.close();
+                adapter.setExercises(exercises);
+                adapter.notifyDataSetChanged();
+                break;
+            //In this case, previous activity was filtering exercises, so we have to get types to show from RecyclerView Adapter, and determinate how to sort our array
+            case 2:
+                Toast.makeText(mContext, ExercisesFiltersRecViewAdapter.CheckedTypes.toString(), Toast.LENGTH_SHORT).show();
+
+                //setting sorter with get extra from previous activity
+                exercises_filter_sorter = (ExercisesFragment.SortFilter) data.getSerializableExtra("EXERCISES_SORTER_BACK");
+
+                dataBaseAccess.open();
+                exercises = dataBaseAccess.filterExercisesByAttributes(ExercisesFiltersRecViewAdapter.CheckedTypes, exercises_filter_sorter);
+                dataBaseAccess.close();
+                adapter.setExercises(exercises);
+                adapter.notifyDataSetChanged();
+                break;
+            default:
+                break;
+        }
+
     }
 }

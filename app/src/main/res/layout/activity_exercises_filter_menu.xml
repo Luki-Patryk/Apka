@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
-        android:id="@+id/radioGroup"
+        android:id="@+id/exercises_filter_sort_radioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -27,22 +27,25 @@
         app:layout_constraintTop_toBottomOf="@+id/textView5">
 
         <RadioButton
-            android:id="@+id/A_Z_radioBtn"
+            android:id="@+id/filter_sorter_name_A_Z"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name A-Z" />
 
         <RadioButton
+            android:id="@+id/filter_sorter_name_Z_A"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name Z-A" />
 
         <RadioButton
+            android:id="@+id/filter_sorter_type_A_Z"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Type A-Z" />
 
         <RadioButton
+            android:id="@+id/filter_sorter_type_Z_A"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Type Z-A" />
@@ -57,7 +60,7 @@
         android:layout_marginTop="32dp"
         android:text="Filters:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+        app:layout_constraintTop_toBottomOf="@+id/exercises_filter_sort_radioGroup" />
 
     <CheckBox
         android:id="@+id/show_all_checkbox"
@@ -70,15 +73,15 @@
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/exercises_types_RecView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/show_all_checkbox"
         app:layout_constraintTop_toBottomOf="@+id/show_all_checkbox" />
 
     <Button
+        android:id="@+id/filter_exercises_btn"
         style="@style/Widget.MaterialComponents.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -89,7 +92,7 @@
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+        app:layout_constraintTop_toBottomOf="@+id/exercises_types_RecView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

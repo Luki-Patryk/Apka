@@ -22,6 +22,7 @@
         <activity android:name=".EXERCISES.ExercisesFilterMenu" />
         <activity android:name=".EXERCISES.ExerciseAdd" />
         <activity android:name=".EXERCISES.ExercisesDetailsActivity" />
+        <activity android:name=".EXERCISES.ExerciseEdit" />
         <activity android:name=".ACCOUNT.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

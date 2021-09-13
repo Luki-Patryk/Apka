@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,7 +10,7 @@
     android:id="@+id/exercise_details_layout"
     android:padding="10dp">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <!--TODO:-->
@@ -18,35 +19,43 @@
             android:id="@+id/edit_exercise_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_style"
             android:text="Edit"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:background="@drawable/button_style"/>
+            app:layout_constraintBottom_toBottomOf="@+id/exercise_name_details"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/exercise_name_details" />
 
         <TextView
             android:id="@+id/exercise_name_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="italic"
             android:layout_gravity="center"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="40dp"
             android:text="Exercise Name"
+            android:textColor="@color/white"
             android:textSize="25dp"
-            android:textColor="@color/white"/>
+            android:textStyle="italic"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/close_exercise_details"
+            app:layout_constraintStart_toStartOf="@+id/edit_exercise_details"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/close_txt_details"
+            android:id="@+id/close_exercise_details"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:text="X"
+            android:background="@drawable/cerclebackground"
             android:gravity="center"
+            android:text="X"
+            android:textColor="@color/white"
             android:textSize="15sp"
-            android:background="@drawable/cerclebackground"/>
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/exercise_name_details"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/exercise_name_details" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"

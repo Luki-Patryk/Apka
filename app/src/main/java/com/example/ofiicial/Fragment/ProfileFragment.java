@@ -57,7 +57,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener
         initViews(profile_view);
         setStart();
         initlisteners(profile_view);
-        
+
         return profile_view;
     }
 

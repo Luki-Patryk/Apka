@@ -78,5 +78,3 @@ public class MainActivity extends AppCompatActivity  implements BottomNavigation
         super.onActivityResult(requestCode, resultCode, data);
     }
 }
-
-
