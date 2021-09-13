@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EXERCISES.FragmentExercisesDetails.ExerciseAboutDetailsFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/exerciseFilm"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:src="@drawable/ic_workout"/>
+
+
+
+        <TextView
+            android:id="@+id/instructions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Instructions:"
+            android:textStyle="normal"
+            android:textSize="20sp"
+            android:layout_below="@+id/exerciseFilm"/>
+
+        <TextView
+            android:layout_below="@+id/instructions"
+            android:id="@+id/exerciseDesc"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="A LOT OF TEXT TO COPY :/"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:gravity="center"/>
+
+        <!--TODO:-->
+        <!-- Change textView "exerciseDesc" into scrollView or something else ...-->
+
+    </RelativeLayout>
+
+</FrameLayout>

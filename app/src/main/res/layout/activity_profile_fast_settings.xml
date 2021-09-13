@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PROFILE.ProfileFastSettings"
+    android:background="@color/profile_background">
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/fast_settings_img_profile"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        app:cardCornerRadius="60dp"
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:id="@+id/fast_settings_img_url"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/blank_profile_picture" />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <TextView
+        android:id="@+id/photos_compare_photo_add_url_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/profile_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fast_settings_img_profile"
+        android:textSize="20dp"
+        android:layout_marginTop="5dp"
+        android:text="CHANGE PROFILE PHOTO"
+        android:textColor="@color/teal_200"
+        android:textStyle="italic"
+        android:gravity="center"/>
+
+    <RelativeLayout
+        android:id="@+id/fast_settings_username_layout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:layout_constraintTop_toBottomOf="@+id/photos_compare_photo_add_url_textView">
+
+        <TextView
+            android:id="@+id/fast_settings_txt_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="Username"
+            android:textStyle="italic"
+            android:textColor="@color/black"
+            android:textSize="20sp"/>
+
+        <!--TODO:SET MAX username length -->
+
+        <TextView
+            android:id="@+id/fast_settings_txt_change_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="21dp"
+            android:layout_marginEnd="9dp"
+            android:layout_marginBottom="19dp"
+            android:layout_toStartOf="@+id/fast_settings_username_right_arrow"
+            android:text="username"
+            android:textColor="@color/teal_200"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/fast_settings_username_right_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/ic_right_arrow"/>
+
+        <EditText
+            android:visibility="gone"
+            android:id="@+id/fast_settings_username_change_edit_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="5dp"
+            android:layout_toStartOf="@+id/fast_settings_username_right_arrow"
+            android:hint="New username" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/fast_settings_gender_layout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:layout_constraintTop_toBottomOf="@+id/fast_settings_username_layout">
+
+        <TextView
+            android:id="@+id/fast_settings_txt_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="Gender"
+            android:textStyle="italic"
+            android:textColor="@color/black"
+            android:textSize="20sp"/>
+
+
+        <TextView
+            android:id="@+id/fast_settings_txt_change_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_toStartOf="@+id/fast_settings_gender_right_arrow"
+            android:text="gender"
+            android:textColor="@color/teal_200"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+
+
+        <ImageView
+            android:id="@+id/fast_settings_gender_right_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/ic_right_arrow"/>
+
+        <RadioGroup
+            android:visibility="gone"
+            android:id="@+id/fast_settings_radio_group"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/fast_settings_gender_right_arrow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <RadioButton
+                android:id="@+id/fast_settings_radio_btn_man"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Man" />
+
+            <RadioButton
+                android:layout_marginStart="20dp"
+                android:id="@+id/fast_settings_radio_btn_woman"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Woman" />
+        </RadioGroup>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/fast_settings_location_layout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:layout_constraintTop_toBottomOf="@+id/fast_settings_gender_layout">
+
+        <TextView
+            android:id="@+id/fast_settings_txt_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="Location"
+            android:textStyle="italic"
+            android:textColor="@color/black"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/fast_settings_txt_change_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_toStartOf="@+id/fast_settings_location_right_arrow"
+            android:text="location"
+            android:textColor="@color/teal_200"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <ImageView
+            android:id="@+id/fast_settings_location_right_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/ic_right_arrow"/>
+
+        <EditText
+            android:visibility="gone"
+            android:id="@+id/fast_settings_location_change_edit_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="5dp"
+            android:layout_toStartOf="@+id/fast_settings_location_right_arrow"
+            android:hint="Location: " />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/fast_settings_email_layout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:layout_constraintTop_toBottomOf="@+id/fast_settings_location_layout">
+
+        <TextView
+            android:id="@+id/fast_settings_txt_email_verification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="Email(Unverified)"
+            android:textStyle="italic"
+            android:textColor="@color/red"
+            android:textSize="20sp"/>
+
+        <Button
+            android:id="@+id/fast_settings_email_verify_btn"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toStartOf="@+id/fast_settings_email_change_btn"
+            android:text="Verify"
+            android:backgroundTint="@color/blue"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            tools:ignore="SmallSp" />
+
+        <Button
+            android:id="@+id/fast_settings_email_change_btn"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="10sp"
+            android:backgroundTint="@color/green"
+            android:text="Change"
+            />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/fast_settings_save_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fast_settings_email_layout"
+        android:layout_marginTop="30dp"
+        android:text="SAVE"
+        android:backgroundTint="@color/orange"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

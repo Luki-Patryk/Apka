@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PROFILE.PhotosCompare.ProfilePhotosComparePhotoAddingActivity"
+    android:background="@color/profile_background">
+
+    <ImageView
+        android:id="@+id/photos_compare_photo_add_url_imageView"
+        android:layout_width="160dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="100dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_launcher_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="You :o"
+        app:layout_constraintBottom_toTopOf="@+id/photos_compare_photo_add_url_imageView"
+        app:layout_constraintEnd_toEndOf="@+id/photos_compare_photo_add_url_imageView"
+        app:layout_constraintStart_toStartOf="@+id/photos_compare_photo_add_url_imageView" />
+
+    <TextView
+        android:id="@+id/photos_compare_photo_add_url_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/profile_background"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:text="Add photo from gallery!"
+        android:textColor="@color/teal_200"
+        android:textSize="20dp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/photos_compare_photo_add_url_imageView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date: "
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginStart="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/photos_compare_photo_add_date_editText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/photos_compare_photo_add_date_editText" />
+
+    <EditText
+        android:id="@+id/photos_compare_photo_add_date_editText"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:gravity="center"
+        android:hint="Enter Date"
+        android:inputType="date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="40dp"
+        android:maxLength="10"
+        android:background="@color/profile_background_darker"
+        app:layout_constraintTop_toBottomOf="@+id/photos_compare_photo_add_url_textView" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Weight: "
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginStart="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/photos_compare_photo_add_weight_editText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/photos_compare_photo_add_weight_editText" />
+
+    <EditText
+        android:id="@+id/photos_compare_photo_add_weight_editText"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/profile_background_darker"
+        android:gravity="center"
+        android:maxLength="4"
+        android:hint="Enter your weight [kg]"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/photos_compare_photo_add_date_editText"
+        app:layout_goneMarginTop="30dp" />
+
+    <Button
+        android:id="@+id/photos_compare_photo_add_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        android:text="ADD"
+        android:backgroundTint="@color/orange"
+        android:textStyle="italic"
+        app:layout_constraintTop_toBottomOf="@+id/photos_compare_photo_add_weight_editText" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
