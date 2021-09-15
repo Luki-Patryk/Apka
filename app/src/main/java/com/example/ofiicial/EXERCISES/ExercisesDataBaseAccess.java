@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
 
 import com.example.ofiicial.EXERCISES.Exercises;
 import com.example.ofiicial.EXERCISES.ExercisesDataBaseOpenHelper;
@@ -26,6 +25,7 @@ public class ExercisesDataBaseAccess
     public static final String EXERCISE_TYPE_ID = "EXERCISES_TABLE.exercise_type_id";
     public static final String EXERCISE_IMAGE_URL = "EXERCISES_TABLE.exercise_image_url";
     public static final String IS_EXERCISE_ORIGINAL = "EXERCISES_TABLE.is_exercise_original";
+    public static final String IS_EXERCISE_TYPE_ORIGINAL = "EXERCISE_TYPE_TABLE.is_original";
     public static final String EXERCISE_TYPE_TABLE = "EXERCISE_TYPE_TABLE";
     public static final String EXERCISE_TYPE_TABLE_ID = "EXERCISE_TYPE_TABLE.id";
     public static final String EXERCISE_TYPE = "EXERCISE_TYPE_TABLE.exercise_type";
@@ -339,6 +339,7 @@ public class ExercisesDataBaseAccess
         {
             ContentValues values = new ContentValues();
             values.put("exercise_type", type);
+            values.put("is_original", 0);
 
             database.insert(EXERCISE_TYPE_TABLE, null, values);
 
@@ -532,7 +533,46 @@ public class ExercisesDataBaseAccess
 
     public void deleteExercise(int ID)
     {
-        //TODO: if type of this exercise was created by user and it is the only exercise where its appear then delete the type from database also
+        //getting type_id to check if this is original or added by user
+        String queryString;
+        queryString = "SELECT " + EXERCISE_TYPE_ID + " FROM " + EXERCISES_TABLE + " WHERE " + EXERCISES_TABLE_ID + " = " + ID;
+
+        int type_id = 0;
+
+        Cursor cursor = database.rawQuery(queryString, null);
+
+        if(cursor.moveToFirst())
+        {
+            type_id = cursor.getInt(0);
+        }
+
+        //checking if this exercise is original or not
+        queryString = "SELECT " + IS_EXERCISE_TYPE_ORIGINAL + " FROM " + EXERCISE_TYPE_TABLE + " WHERE " + EXERCISE_TYPE_TABLE_ID + " = " + type_id;
+
+        cursor = database.rawQuery(queryString, null);
+
+        if(cursor.moveToFirst())
+        {
+            int is_original = cursor.getInt(0);
+
+            //if exercise type is added by user check if this is last exercise of this type, and delete this type if that's true
+            if(is_original == 0)
+            {
+                queryString = "SELECT " + EXERCISES_TABLE_ID + " FROM " + EXERCISES_TABLE + " WHERE " + EXERCISE_TYPE_ID + " = " + is_original;
+
+                cursor = database.rawQuery(queryString, null);
+
+                //if this is false, then there is no more exercises with our not original type, so delete it from database
+                if(!cursor.moveToFirst())
+                {
+                    database.delete(EXERCISE_TYPE_TABLE, "id == " + type_id, null);
+
+                }
+            }
+        }
+
+        cursor.close();
+
         database.delete(EXERCISES_TABLE, "id == " + ID, null);
     }
 }
