@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ public class ExerciseAdd extends AppCompatActivity
     private ArrayList<String> exerciseTypesString = new ArrayList<>();
     private Spinner typesSpinner;
     private boolean isClicked = false;
+    private boolean isEmpty = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -84,27 +86,25 @@ public class ExerciseAdd extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
+                //Tracking if fields are empty and dialog will be shown, if that's true, then we can't finish this activity
+                isEmpty = false;
 
                 if(name.getText().toString().matches("") || type.getText().toString().matches(""))
                 {
-                    Toast.makeText(ExerciseAdd.this, "Tekst jest pusty", Toast.LENGTH_SHORT).show();
+                    isEmpty = true;
 
-                    //TODO: Create a dialog when any EditText is empty
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-                    builder.setMessage("Fields can't be empty")
-                            .setTitle("Title")
-                            .setCancelable(true)
-                            .setNeutralButton("OK",
-                                    new DialogInterface.OnClickListener()
-                                    {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which)
-                                        {
-                                            finish();
-                                        }
-                                    });
-                    AlertDialog alert = builder.create();
-                    alert.show();
+                    new AlertDialog.Builder(ExerciseAdd.this)
+                            .setTitle("Warning")
+                            .setMessage("U can't add an exercise while one of the fields is empty")
+                            .setNeutralButton("OKAY", new DialogInterface.OnClickListener()
+                            {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which)
+                                {
+                                    dialog.cancel();
+                                }
+                            })
+                            .show();
                 }
 
                 String nameString, typeString;
@@ -117,10 +117,14 @@ public class ExerciseAdd extends AppCompatActivity
                 dataBaseAccess.addExercise(nameString, typeString, "NULL");
                 dataBaseAccess.close();
 
+                //If dialog was shown we cant finish this activity because dialog will disappear immediately
                 //Declaring intent with result so that we can call onActivityResult function inside ExerciseFragment and refresh database
-                Intent intent = new Intent();
-                setResult(1, intent);
-                finish();
+                if(!isEmpty)
+                {
+                    Intent intent = new Intent();
+                    setResult(1, intent);
+                    finish();
+                }
             }
         });
 
@@ -157,5 +161,4 @@ public class ExerciseAdd extends AppCompatActivity
 
         type.setText(null);
     }
-
 }
