@@ -68,7 +68,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private void initObjects()
     {
         inputValidation = new InputValidation(activity);
-        user = new User();
     }
 
     @Override
@@ -100,7 +99,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
         if (!inputValidation.isInputEditTextMatches(et_Password, et_ConfPassword,
-                lay_ConfPassword, getString(R.string.error_password_match))) {
+                lay_ConfPassword, getString(R.string.error_password_match)))
+        {
             return;
         }
 
@@ -109,11 +109,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         if (!userDataBaseAccess.checkUser(et_Email.getText().toString().trim()))
         {
-            user.setNick_name(et_Name.getText().toString().trim());
-            user.setEmail(et_Email.getText().toString().trim());
-            user.setPassword(et_Password.getText().toString().trim());
 
-            userDataBaseAccess.addUser(user);
+            String user_name = et_Name.getText().toString().trim();
+            String user_email = et_Email.getText().toString().trim();
+            String user_password = et_Password.getText().toString().trim();
+
+            userDataBaseAccess.addUser(user_name, user_email, user_password);
 
             // Snack Bar to show success message that record saved successfully
             Snackbar.make(nestedScrollView, getString(R.string.success_message), Snackbar.LENGTH_LONG).show();

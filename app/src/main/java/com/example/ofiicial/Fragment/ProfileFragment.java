@@ -43,6 +43,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener
     private ByteArrayOutputStream objectByteArrayOutputStream;
     private byte[] profile_photo_to_pass_inByte;
 
+//    MainActivity mainActivity = (MainActivity) getActivity();
+
     ImageButton profile_btn_goTo_fast_settings, profile_btn_goTo_photos_comapare;
     TextView profile_name;
     ImageView profile_img_picture;
@@ -73,6 +75,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener
     {
         MainActivity mainActivity = (MainActivity) getActivity();
         String start_email = mainActivity.getUserEmailFromLoginActivity();
+        Toast.makeText(mContext, String.valueOf(mainActivity.getUserIdFromLoginActivity()), Toast.LENGTH_SHORT).show();
 
         userDataBaseAccess = UserDataBaseAccess.getProfile_instance(getContext());
         userDataBaseAccess.open();

@@ -17,6 +17,8 @@ public class ProfilePhototComparePhotoShow extends AppCompatActivity implements 
 {
     private ProfilePhotosCompareDataBaseAccess profilePhotosCompareDataBaseAccess;
 
+    private ProfilePhotosCompareAdapter mAdapter;
+
     ImageView photos_compare_photo_show_image;
     TextView photos_compare_photo_show_txt, photos_compare_photo_delete_txt;
 
@@ -31,7 +33,6 @@ public class ProfilePhototComparePhotoShow extends AppCompatActivity implements 
         initViews();
         setStart();
         initListeners();
-        Toast.makeText(this, String.valueOf(getIntent().getIntExtra("ID", -1) + "SOMETGING? "), Toast.LENGTH_LONG).show();
     }
 
     private void initViews()
@@ -72,6 +73,8 @@ public class ProfilePhototComparePhotoShow extends AppCompatActivity implements 
         profilePhotosCompareDataBaseAccess.open();
         profilePhotosCompareDataBaseAccess.deletePhotoById(getIntent().getIntExtra("ID", -1));
         profilePhotosCompareDataBaseAccess.close();
+
+        mAdapter = new ProfilePhotosCompareAdapter();
         finish();
     }
 }

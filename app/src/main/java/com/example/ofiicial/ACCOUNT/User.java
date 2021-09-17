@@ -2,38 +2,28 @@ package com.example.ofiicial.ACCOUNT;
 
 public class User
 {
-    private int id;
+    private int user_id;
     private String nick_name;
     private String email;
     private String password;
 
-//    public User(int id, String nick_name, String email, String password)
-//    {
-//        this.id = id;
-//        this.nick_name = nick_name;
-//        this.email = email;
-//        this.password = password;
-//    }
-
-    @Override
-    public String toString()
+    public User(int user_id, String nick_name, String email, String password)
     {
-        return "User{" +
-                "id=" + id +
-                ", nick_name='" + nick_name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+        this.user_id = user_id;
+        this.nick_name = nick_name;
+        this.email = email;
+        this.password = password;
     }
+
 
     public int getId()
     {
-        return id;
+        return user_id;
     }
 
-    public void setId(int id)
+    public void setId(int user_id)
     {
-        this.id = id;
+        this.user_id = user_id;
     }
 
     public String getNick_name()

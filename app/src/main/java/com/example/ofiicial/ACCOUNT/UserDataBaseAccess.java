@@ -5,7 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.widget.Toast;
 
+import com.example.ofiicial.PROFILE.PhotosCompare.Photos;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class UserDataBaseAccess
@@ -44,14 +50,44 @@ public class UserDataBaseAccess
       }
     }
 
-    public void addUser(User user)
+    public ArrayList<User> getAllUsers()
     {
+        ArrayList<User> returnList = new ArrayList<>();
+
+        String queryString = "SELECT user_id, user_name, user_email, user_password" +
+                " FROM USER_PHOTOS";
+
+        Cursor cursor =  profile_database.rawQuery(queryString, null);
+
+        if(cursor.moveToFirst())
+        {
+            do
+            {
+                int user_id = cursor.getInt(0);
+                String user_name = cursor.getString(1);
+                String user_email = cursor.getString(2);
+                String user_password = cursor.getString(3);
+
+                User user = new User(user_id, user_name, user_email, user_password);
+                returnList.add(user);
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        return returnList;
+    }
+
+    public ArrayList<User> addUser(String user_name, String user_email, String user_password)
+    {
+        ArrayList<User> return_list = getAllUsers();
+
         ContentValues values = new ContentValues();
-        values.put("user_name", user.getNick_name());
-        values.put("user_email", user.getEmail());
-        values.put("user_password", user.getPassword());
+        values.put("user_name", user_name);
+        values.put("user_email", user_email);
+        values.put("user_password", user_password);
 
         profile_database.insert("user_table", null, values);
+
+        return  return_list;
     }
 
     public boolean checkUser(String email)
@@ -148,6 +184,37 @@ public class UserDataBaseAccess
         return name;
     }
 
+    public int getUserIdByUserEmail(String email)
+    {
+        int id = -1;
+
+        String queryString = "SELECT user_id, user_email" +
+                " FROM user_table";
+
+        Cursor cursor = profile_database.rawQuery(queryString, null);
+
+        if(cursor.moveToFirst())
+        {
+            do
+            {
+                if(cursor.getString(1).equals(email))
+                {
+                    id = cursor.getInt(0);
+                }
+            }while(cursor.moveToNext());
+        }
+
+        try
+        {
+            return id;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
     public String getUserPictureByUserEmail(String email)
     {
         String img_url = "";
@@ -194,27 +261,39 @@ public class UserDataBaseAccess
         return new String[]{fs_gender, fs_location};
     }
 
-    public void changeUserDataFS(byte[] imageInByte, String profile_name, String profile_gender, String profile_location)
-    {
-        String queryString =  "SELECT user_name, user_gender, user_location" +
-                " FROM user_table";
-        Cursor cursor = profile_database.rawQuery(queryString, null);
+//    public void changeUserDataFS(byte[] imageInByte, String profile_name, String profile_gender, String profile_location)
+//    {
+//        String queryString =  "SELECT user_name, user_gender, user_location, user_img_url" +
+//                " FROM user_table";
+//        Cursor cursor = profile_database.rawQuery(queryString, null);
+//
+//        if(cursor.moveToFirst())
+//        {
+//            do
+//            {
+//                if(cursor.getString(1).equals(profile_name))
+//                {
+//                    profile_database.execSQL("UPDATE user_table " +
+//                            "SET user_name = " + profile_name +
+//                            ", user_gender = " + profile_gender +
+//                            ", user_location = " + profile_location +
+//                            ", user_img_url = " + imageInByte +
+//                            " WHERE user_name = " + profile_name + ";");
+//                }
+//            }while (cursor.moveToNext());
+//        }
+//    }
 
-        if(cursor.moveToFirst())
-        {
-            do
-            {
-                if(cursor.getString(1).equals(profile_name))
-                {
-                    profile_database.execSQL("UPDATE user_table " +
-                            "SET user_img_url " + imageInByte +
-                            ", user_name = " + profile_name +
-                            ", user_gender = " + profile_gender +
-                            ", user_location = " + profile_location +
-                            " WHERE user_name = " + profile_name + ";");
-                }
-            }while (cursor.moveToNext());
-        }
+    public boolean changeUserDataFS_test(int user_id, byte[] imageInByte, String profile_name, String profile_gender, String profile_location)
+    {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("user_img_url", imageInByte);
+        contentValues.put("user_name", profile_name);
+        contentValues.put("user_gender", profile_gender);
+        contentValues.put("user_location", profile_location);
+
+        profile_database.update("user_table", contentValues, "user_id = ?", new String [] {String.valueOf(user_id)});
+        return  true;
     }
 
 }

@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity  implements BottomNavigation
 
     BottomNavigationView bottomNavigationView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +69,11 @@ public class MainActivity extends AppCompatActivity  implements BottomNavigation
     public String getUserEmailFromLoginActivity()
     {
         return getIntent().getStringExtra("EMAIL_PASS");
+    }
+
+    public int getUserIdFromLoginActivity()
+    {
+        return getIntent().getIntExtra("USER_ID", -1);
     }
 
     @Override

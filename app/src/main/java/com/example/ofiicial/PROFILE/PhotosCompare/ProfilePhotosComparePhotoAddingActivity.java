@@ -175,10 +175,8 @@ public class ProfilePhotosComparePhotoAddingActivity extends AppCompatActivity i
         {
             profilePhotosCompareDataBaseAccess = ProfilePhotosCompareDataBaseAccess.getPhoto_instance(getApplicationContext());
             profilePhotosCompareDataBaseAccess.open();
-
-            Photos photo_add = new Photos(imageToStore, photos_compare_photo_add_date_editText.getText().toString(),Integer.parseInt(photos_compare_photo_add_weight_editText.getText().toString()));
-
-            profilePhotosCompareDataBaseAccess.addPhoto(photo_add);
+            profilePhotosCompareDataBaseAccess.addPhoto(imageToStore, photos_compare_photo_add_date_editText.getText().toString(), Integer.parseInt(photos_compare_photo_add_weight_editText.getText().toString()));
+            profilePhotosCompareDataBaseAccess.close();
 
             Toast.makeText(this, "Photo added", Toast.LENGTH_SHORT).show();
 

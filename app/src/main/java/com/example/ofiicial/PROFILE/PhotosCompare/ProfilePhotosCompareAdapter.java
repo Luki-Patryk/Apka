@@ -88,8 +88,6 @@ public class ProfilePhotosCompareAdapter extends RecyclerView.Adapter<ProfilePho
 
                     intent.putExtra("ID", photos.get(getAdapterPosition()).getPhoto_id());
 
-
-
                     view.getContext().startActivity(intent);
                 }
             });

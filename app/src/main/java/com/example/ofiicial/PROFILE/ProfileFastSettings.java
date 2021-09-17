@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ofiicial.ACCOUNT.UserDataBaseAccess;
+import com.example.ofiicial.MainActivity;
 import com.example.ofiicial.R;
 
 import java.io.ByteArrayOutputStream;
@@ -70,6 +71,7 @@ public class ProfileFastSettings extends AppCompatActivity implements View.OnCli
         setStart();
         initListeners();
         initObjects();
+        Toast.makeText(activity, String.valueOf(getIntent().getIntExtra("USER_ID", -1)), Toast.LENGTH_SHORT).show();
     }
 
     private void initViews()
@@ -366,11 +368,21 @@ public class ProfileFastSettings extends AppCompatActivity implements View.OnCli
         // Change bitmap / username / gender / location in database
         userDataBaseAccess = UserDataBaseAccess.getProfile_instance(getApplicationContext());
         userDataBaseAccess.open();
-        userDataBaseAccess.changeUserDataFS(user_img_url_to_save_inByte,
+
+        boolean isUpdated = userDataBaseAccess.changeUserDataFS_test(getIntent().getIntExtra("user_id", -1), user_img_url_to_save_inByte,
                 fast_settings_txt_change_username.getText().toString().trim(),
                 fast_settings_txt_change_gender.getText().toString().trim(),
                 fast_settings_txt_change_location.getText().toString().trim());
 
+        if(isUpdated)
+        {
+            Toast.makeText(activity, "YEA :)", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            Toast.makeText(activity, "NO :(", Toast.LENGTH_SHORT).show();
+        }
+        userDataBaseAccess.close();
 
         // Pass result for ProfileFragment (If necessary)
         String user_name_from_FS = fast_settings_txt_change_username.getText().toString().trim();

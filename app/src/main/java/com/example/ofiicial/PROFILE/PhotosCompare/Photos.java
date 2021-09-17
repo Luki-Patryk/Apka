@@ -50,20 +50,11 @@ public class Photos
         this.photo_weight = photo_weight;
     }
 
-    public Photos(Bitmap photo_url, String photo_date, int photo_weight)
+    public Photos(int photo_id, Bitmap photo_url, String photo_date, int photo_weight)
     {
+        this.photo_id = photo_id;
         this.photo_url = photo_url;
         this.photo_date = photo_date;
         this.photo_weight = photo_weight;
-    }
-
-    @Override
-    public String toString() {
-        return "ProfilePhotosComparePhoto{" +
-                "photo_url='" + photo_url + '\'' +
-                ", photo_data='" + photo_date + '\'' +
-                ", photo_id='" + photo_id + '\'' +
-                ", photo_weight=" + photo_weight +
-                '}';
     }
 }

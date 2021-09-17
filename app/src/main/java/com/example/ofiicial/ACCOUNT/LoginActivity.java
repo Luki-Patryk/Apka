@@ -109,6 +109,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         {
             Intent accountsIntent = new Intent(activity, MainActivity.class);
             accountsIntent.putExtra("EMAIL_PASS", et_Email.getText().toString().trim());
+            accountsIntent.putExtra("USER_ID", userDataBaseAccess.getUserIdByUserEmail(et_Email.getText().toString().trim()));
             emptyInputEditText();
             startActivity(accountsIntent);
         }

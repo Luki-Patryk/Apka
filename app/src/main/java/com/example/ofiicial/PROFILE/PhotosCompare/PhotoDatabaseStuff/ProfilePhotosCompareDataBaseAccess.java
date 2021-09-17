@@ -52,26 +52,31 @@ public class ProfilePhotosCompareDataBaseAccess
         }
     }
 
-    public void addPhoto(Photos photo)
+    public ArrayList<Photos> addPhoto(Bitmap photo_url, String photo_date, int photo_weight)
     {
+        ArrayList<Photos> return_list = getAllPhotos();
+
         ContentValues values =  new ContentValues();
-        Bitmap imageToStore = photo.getPhoto_url();
+
+        Bitmap imageToStore = photo_url;
         objectByteArrayOutputStream = new ByteArrayOutputStream();
         imageToStore.compress(Bitmap.CompressFormat.JPEG, 100, objectByteArrayOutputStream);
         imageInByte = objectByteArrayOutputStream.toByteArray();
         values.put("photo_url", imageInByte);
 
-        values.put("photo_date", photo.getPhoto_date());
-        values.put("photo_weight", photo.getPhoto_weight());
+        values.put("photo_date", photo_date);
+        values.put("photo_weight", photo_weight);
 
         profile_photos_compare_database.insert("user_photos", null, values);
+
+        return return_list;
     }
 
     public ArrayList<Photos> getAllPhotos()
     {
         ArrayList<Photos> returnList = new ArrayList<>();
 
-        String queryString = "SELECT USER_PHOTOS.photo_url, USER_PHOTOS.photo_date, USER_PHOTOS.photo_weight" +
+        String queryString = "SELECT USER_PHOTOS.photo_id, USER_PHOTOS.photo_url, USER_PHOTOS.photo_date, USER_PHOTOS.photo_weight" +
                 " FROM USER_PHOTOS";
 
         Cursor cursor =  profile_photos_compare_database.rawQuery(queryString, null);
@@ -80,13 +85,15 @@ public class ProfilePhotosCompareDataBaseAccess
         {
             do
             {
-                byte [] photo_url_in_byte = cursor.getBlob(0);
+                int photo_id = cursor.getInt(0);
+
+                byte [] photo_url_in_byte = cursor.getBlob(1);
                 Bitmap photo_url_bitmap  = BitmapFactory.decodeByteArray(photo_url_in_byte,0, photo_url_in_byte.length);
 
-                String photo_date = cursor.getString(1);
-                int photo_weight = cursor.getInt(2);
+                String photo_date = cursor.getString(2);
+                int photo_weight = cursor.getInt(3);
 
-                Photos photo = new Photos(photo_url_bitmap, photo_date, photo_weight);
+                Photos photo = new Photos(photo_id, photo_url_bitmap, photo_date, photo_weight);
                 returnList.add(photo);
             }while (cursor.moveToNext());
         }
@@ -96,23 +103,7 @@ public class ProfilePhotosCompareDataBaseAccess
 
     public void deletePhotoById(int id)
     {
-        String queryString = "SELECT USER_PHOTOS.photo_id " +
-                " FROM USER_PHOTOS";
-
-        Cursor cursor = profile_photos_compare_database.rawQuery(queryString, null);
-
-        if(cursor.moveToFirst())
-        {
-            do
-            {
-                if (cursor.getInt(0) == id)
-                {
-                    profile_photos_compare_database.execSQL("DELETE FROM" + " USER_PHOTOS" + " WHERE" +
-                            " photo_id" + " = " + id +";");
-                }
-            }while(cursor.moveToNext());
-        cursor.close();
-        }
+        profile_photos_compare_database.delete("USER_PHOTOS", "photo_id == " + id, null);
     }
 
 }
