@@ -24,6 +24,7 @@ import com.example.ofiicial.PROFILE.PhotosCompare.ProfilePhotosCompareActivity;
 import com.example.ofiicial.R;
 
 import java.io.ByteArrayOutputStream;
+import java.sql.Blob;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static androidx.core.provider.FontsContractCompat.FontRequestCallback.RESULT_OK;
@@ -43,11 +44,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener
     private ByteArrayOutputStream objectByteArrayOutputStream;
     private byte[] profile_photo_to_pass_inByte;
 
-//    MainActivity mainActivity = (MainActivity) getActivity();
+    MainActivity mainActivity = (MainActivity) getActivity();
 
     ImageButton profile_btn_goTo_fast_settings, profile_btn_goTo_photos_comapare;
     TextView profile_name;
-    ImageView profile_img_picture;
+    ImageView fast_settings_img_url;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,8 +58,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener
         View profile_view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         initViews(profile_view);
-        setStart();
         initlisteners(profile_view);
+        setStart();
 
         return profile_view;
     }
@@ -68,25 +69,27 @@ public class ProfileFragment extends Fragment implements View.OnClickListener
         profile_btn_goTo_fast_settings = profile_view.findViewById(R.id.profile_btn_goTo_fast_settings);
         profile_btn_goTo_photos_comapare = profile_view.findViewById(R.id.profile_btn_goTo_photos_compare);
         profile_name = profile_view.findViewById(R.id.profile_name);
-        profile_img_picture = profile_view.findViewById(R.id.profile_img_url);
+        fast_settings_img_url = profile_view.findViewById(R.id.profile_img_url);
     }
 
     private void setStart()
     {
+        //TODO: Don't know yet but there is probability of problem with getting everything by email :/
         MainActivity mainActivity = (MainActivity) getActivity();
         String start_email = mainActivity.getUserEmailFromLoginActivity();
-        Toast.makeText(mContext, String.valueOf(mainActivity.getUserIdFromLoginActivity()), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity().getApplicationContext(), String.valueOf(mainActivity.getUserIdFromLoginActivity()), Toast.LENGTH_SHORT).show();
 
         userDataBaseAccess = UserDataBaseAccess.getProfile_instance(getContext());
         userDataBaseAccess.open();
 
-        String start_name  = userDataBaseAccess.getUserNameByUserEmail(start_email);
+        String start_name  = userDataBaseAccess.getUserNameByUserID(mainActivity.getUserIdFromLoginActivity());
         profile_name.setText(start_name);
 
-        String start_img_url = userDataBaseAccess.getUserPictureByUserEmail(start_email);
-        if(start_img_url != null)
+        byte[] start_img_url = userDataBaseAccess.getUserPictureByUserID(mainActivity.getUserIdFromLoginActivity());
+        Bitmap start_img_url_bitmap = BitmapFactory.decodeByteArray( start_img_url, 0,  start_img_url.length);
+        if(start_img_url_bitmap != null)
         {
-            profile_img_picture.setImageURI( Uri.parse(start_img_url));
+            fast_settings_img_url.setImageBitmap( start_img_url_bitmap);
         }
 
         userDataBaseAccess.close();
@@ -101,17 +104,23 @@ public class ProfileFragment extends Fragment implements View.OnClickListener
     @Override
     public void onClick(View view)
     {
+        MainActivity mainActivity = (MainActivity) getActivity();
+
         switch (view.getId())
         {
             case R.id.profile_btn_goTo_fast_settings:
                 Intent intent = new Intent(getContext(), ProfileFastSettings.class);
                 intent.putExtra("PROFILE_NAME", profile_name.getText().toString().trim());
+                intent.putExtra("PROFILE_ID", mainActivity.getUserIdFromLoginActivity());
 
-                Bitmap profile_photo_to_pass = profile_img_picture.getDrawingCache();
-                objectByteArrayOutputStream = new ByteArrayOutputStream();
-                if(profile_photo_to_pass != null)
+                fast_settings_img_url.buildDrawingCache();
+                Bitmap profile_photo_to_pass_bitmap = fast_settings_img_url.getDrawingCache();
+                System.out.println("!!!!!!!!! CHODZI O TO !!!!!!!!!!");
+                System.out.println(profile_photo_to_pass_bitmap);
+                if(profile_photo_to_pass_bitmap != null)
                 {
-                    profile_photo_to_pass.compress(Bitmap.CompressFormat.JPEG, 100, objectByteArrayOutputStream);
+                    objectByteArrayOutputStream = new ByteArrayOutputStream();
+                    profile_photo_to_pass_bitmap.compress(Bitmap.CompressFormat.JPEG, 100, objectByteArrayOutputStream);
                     profile_photo_to_pass_inByte = objectByteArrayOutputStream.toByteArray();
                     intent.putExtra("PROFILE_IMAGE", profile_photo_to_pass_inByte);
 
@@ -121,6 +130,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener
 
             case R.id.profile_btn_goTo_photos_compare:
                 Intent intent_2 = new Intent(getContext(), ProfilePhotosCompareActivity.class);
+                intent_2.putExtra("PROFILE_ID", mainActivity.getUserIdFromLoginActivity());
                 startActivity(intent_2);
                 break;
         }
@@ -133,7 +143,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener
         {
             byte [] user_image_from_FS_inByte = data.getByteArrayExtra("USER_IMAGE_FROM_FS");
             Bitmap user_image_from_FS_bitmap = BitmapFactory.decodeByteArray(user_image_from_FS_inByte, 0, user_image_from_FS_inByte.length);
-            profile_img_picture.setImageBitmap(user_image_from_FS_bitmap);
+            fast_settings_img_url.setImageBitmap(user_image_from_FS_bitmap);
 
             profile_name.setText(data.getStringExtra("USER_NAME_FROM_FS"));
 

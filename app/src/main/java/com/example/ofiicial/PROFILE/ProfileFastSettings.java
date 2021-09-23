@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -35,7 +36,7 @@ public class ProfileFastSettings extends AppCompatActivity implements View.OnCli
     TextView fast_settings_txt_username, fast_settings_txt_gender, fast_settings_txt_location, fast_settings_txt_email_verification;
     ImageView fast_settings_username_right_arrow, fast_settings_gender_right_arrow, fast_settings_location_right_arrow;
     Button fast_settings_email_verify_btn, fast_settings_email_change_btn, fast_settings_save_btn;
-    ImageView fast_settings_img_profile;
+    ImageView fast_settings_img_url;
     RadioGroup fast_settings_radioGroup;
     RadioButton fast_settings_radio_btn_man, fast_settings_radio_btn_woman;
     EditText fast_settings_username_change_edit_txt, fast_settings_location_change_edit_txt;
@@ -68,10 +69,11 @@ public class ProfileFastSettings extends AppCompatActivity implements View.OnCli
         getSupportActionBar().hide();
 
         initViews();
-        setStart();
         initListeners();
         initObjects();
-        Toast.makeText(activity, String.valueOf(getIntent().getIntExtra("USER_ID", -1)), Toast.LENGTH_SHORT).show();
+        setStart();
+
+
     }
 
     private void initViews()
@@ -94,7 +96,7 @@ public class ProfileFastSettings extends AppCompatActivity implements View.OnCli
      fast_settings_email_change_btn = findViewById(R.id.fast_settings_email_change_btn);
      fast_settings_save_btn = findViewById(R.id.fast_settings_save_btn);
 
-     fast_settings_img_profile = findViewById(R.id.fast_settings_img_url);
+     fast_settings_img_url = findViewById(R.id.fast_settings_img_url);
 
      fast_settings_radioGroup = findViewById(R.id.fast_settings_radio_group);
 
@@ -128,7 +130,7 @@ public class ProfileFastSettings extends AppCompatActivity implements View.OnCli
         if (fs_user_image_inByte != null)
         {
             Bitmap fs_user_image_bitmap = BitmapFactory.decodeByteArray(fs_user_image_inByte, 0, fs_user_image_inByte.length);
-            fast_settings_img_profile.setImageBitmap(fs_user_image_bitmap);
+            fast_settings_img_url.setImageBitmap(fs_user_image_bitmap);
         }
 
         userDataBaseAccess = UserDataBaseAccess.getProfile_instance(getApplicationContext());
@@ -252,7 +254,7 @@ public class ProfileFastSettings extends AppCompatActivity implements View.OnCli
             {
                 e.printStackTrace();
             }
-            fast_settings_img_profile.setImageBitmap(image_to_store);
+            fast_settings_img_url.setImageBitmap(image_to_store);
         }
     }
 
@@ -358,8 +360,8 @@ public class ProfileFastSettings extends AppCompatActivity implements View.OnCli
 
     private void FS_save()
     {
-        //TODO: CHANGE THIS FUN IN DATABASE FOR WORKING BY ID NO BY USERNAME!!!!
-        Bitmap user_img_url_to_save = image_to_store;
+        fast_settings_img_url.buildDrawingCache();
+        Bitmap user_img_url_to_save = fast_settings_img_url.getDrawingCache();
         objectByteArrayOutputStream = new ByteArrayOutputStream();
         user_img_url_to_save.compress(Bitmap.CompressFormat.JPEG, 100, objectByteArrayOutputStream);
         user_img_url_to_save_inByte = objectByteArrayOutputStream.toByteArray();
@@ -369,19 +371,13 @@ public class ProfileFastSettings extends AppCompatActivity implements View.OnCli
         userDataBaseAccess = UserDataBaseAccess.getProfile_instance(getApplicationContext());
         userDataBaseAccess.open();
 
-        boolean isUpdated = userDataBaseAccess.changeUserDataFS_test(getIntent().getIntExtra("user_id", -1), user_img_url_to_save_inByte,
+
+
+        userDataBaseAccess.changeUserDataFS_test(getIntent().getIntExtra("PROFILE_ID", -1), user_img_url_to_save_inByte,
                 fast_settings_txt_change_username.getText().toString().trim(),
                 fast_settings_txt_change_gender.getText().toString().trim(),
                 fast_settings_txt_change_location.getText().toString().trim());
 
-        if(isUpdated)
-        {
-            Toast.makeText(activity, "YEA :)", Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
-            Toast.makeText(activity, "NO :(", Toast.LENGTH_SHORT).show();
-        }
         userDataBaseAccess.close();
 
         // Pass result for ProfileFragment (If necessary)
