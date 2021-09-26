@@ -21,6 +21,9 @@ public class MainActivity extends AppCompatActivity  implements BottomNavigation
 
     BottomNavigationView bottomNavigationView;
 
+    ExercisesFragment exercisesFragment = new ExercisesFragment(this);
+    ProfileFragment profileFragment = new ProfileFragment();
+    WorkoutFragment workoutFragment = new WorkoutFragment(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +37,10 @@ public class MainActivity extends AppCompatActivity  implements BottomNavigation
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         //aplikacja zaczyna dzialac od zakladki workout
         bottomNavigationView.setSelectedItemId(R.id.workout);
+
     }
 
-    ExercisesFragment exercisesFragment = new ExercisesFragment(this);
-    ProfileFragment profileFragment = new ProfileFragment();
-    WorkoutFragment workoutFragment = new WorkoutFragment();
+
 
     // po kliknieciu przyciku na bottom_nav wywoluje sie ta metoda
     @Override
