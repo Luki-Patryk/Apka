@@ -6,8 +6,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,9 +15,8 @@ import android.view.ViewGroup;
 
 import com.example.ofiicial.R;
 import com.example.ofiicial.WORKOUT.PlansFragment;
-import com.example.ofiicial.WORKOUT.SuggestedWorkoutsFragment;
+import com.example.ofiicial.WORKOUT.UserWorkoutsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 
 
 public class WorkoutFragment extends Fragment {
@@ -28,7 +25,7 @@ public class WorkoutFragment extends Fragment {
     private Context mContext;
     private BottomNavigationView topNavigationView;
     private PlansFragment plansFragment;
-    private SuggestedWorkoutsFragment suggestedWorkoutsFragment;
+    private UserWorkoutsFragment suggestedWorkoutsFragment;
 
     public WorkoutFragment(Context mContext)
     {
@@ -53,7 +50,7 @@ public class WorkoutFragment extends Fragment {
 
 
         plansFragment = new PlansFragment();
-        suggestedWorkoutsFragment = new SuggestedWorkoutsFragment();
+        suggestedWorkoutsFragment = new UserWorkoutsFragment();
 
 
         topNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()

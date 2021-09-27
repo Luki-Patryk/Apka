@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.ofiicial.R;
 
-public class SuggestedWorkoutsFragment extends Fragment
+public class UserWorkoutsFragment extends Fragment
 {
 
     @Override
@@ -18,6 +18,6 @@ public class SuggestedWorkoutsFragment extends Fragment
                              Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_suggested_workouts, container, false);
+        return inflater.inflate(R.layout.fragment_user_workouts, container, false);
     }
 }
