@@ -10,6 +10,7 @@ import com.example.ofiicial.EXERCISES.Exercises;
 import com.example.ofiicial.EXERCISES.ExercisesDataBaseOpenHelper;
 import com.example.ofiicial.EXERCISES.ExercisesTypes;
 import com.example.ofiicial.Fragment.ExercisesFragment;
+import com.example.ofiicial.WORKOUT.Workout;
 
 import java.util.ArrayList;
 
@@ -25,10 +26,20 @@ public class ExercisesDataBaseAccess
     public static final String EXERCISE_TYPE_ID = "EXERCISES_TABLE.exercise_type_id";
     public static final String EXERCISE_IMAGE_URL = "EXERCISES_TABLE.exercise_image_url";
     public static final String IS_EXERCISE_ORIGINAL = "EXERCISES_TABLE.is_exercise_original";
-    public static final String IS_EXERCISE_TYPE_ORIGINAL = "EXERCISE_TYPE_TABLE.is_original";
+    public static final String IS_EXERCISE_TYPE_ORIGINAL = "EXERCISE_TYPE_TABLE.is_type_original";
     public static final String EXERCISE_TYPE_TABLE = "EXERCISE_TYPE_TABLE";
     public static final String EXERCISE_TYPE_TABLE_ID = "EXERCISE_TYPE_TABLE.id";
     public static final String EXERCISE_TYPE = "EXERCISE_TYPE_TABLE.exercise_type";
+    public static final String WORKOUT_LIST_TABLE = "WORKOUT_LIST_TABLE";
+    public static final String WORKOUT_LIST_TABLE_EXERCISE_ID = "EXERCISE_TYPE_TABLE.exercise_id";
+    public static final String WORKOUT_LIST_TABLE_WORKOUT_ID = "WORKOUT_LIST_TABLE.workout_id";
+    public static final String WORKOUT_TABLE = "WORKOUT_TABLE";
+    public static final String WORKOUT_TABLE_ID = "WORKOUT_TABLE.id";
+    public static final String WORKOUT_NAME = "WORKOUT_TABLE.workout_name";
+    public static final String WORKOUT_TYPE = "WORKOUT_TABLE.workout_type";
+    public static final String WORKOUT_EXERCISES_COUNT = "WORKOUT_TABLE.exercises_count";
+    public static final String WORKOUT_IMAGE_URL = "WORKOUT_TABLE.workout_image_URL";
+    public static final String IS_WORKOUT_ORIGINAL = "WORKOUT_TABLE.is_workout_original";
 
     //private constructor to make sure that this object will not be created outside this class
     private ExercisesDataBaseAccess(Context context)
@@ -147,22 +158,13 @@ public class ExercisesDataBaseAccess
                 String exerciseName = cursor.getString(1);
                 String exerciseType = cursor.getString(2);
                 String exerciseImageURL = cursor.getString(3);
-                int isExerciseOriginal = cursor.getInt(4);
 
-                boolean isOriginal;
+                boolean isOriginal = true;
 
                 //Determining if exercise was originally in database or was created by user
-                switch (isExerciseOriginal)
+                if(cursor.getInt(4) == 0)
                 {
-                    case 0:
-                        isOriginal = false;
-                        break;
-                    case 1:
-                        isOriginal = true;
-                        break;
-                    default:
-                        isOriginal = true;
-                        break;
+                    isOriginal = false;
                 }
 
                 Exercises exercise = new Exercises(ID, exerciseName, exerciseType, exerciseImageURL, isOriginal);
@@ -574,5 +576,46 @@ public class ExercisesDataBaseAccess
         cursor.close();
 
         database.delete(EXERCISES_TABLE, "id == " + ID, null);
+    }
+
+    //Getting all workouts in A to Z order
+    public ArrayList<Workout> getWorkoutsAtoZ()
+    {
+        ArrayList<Workout> returnList = new ArrayList<>();
+
+        String queryString = "SELECT * \n" +
+                "FROM " + WORKOUT_TABLE + "\n" +
+                "ORDER BY " + WORKOUT_TABLE_ID + " ASC";
+
+        Cursor cursor = database.rawQuery(queryString, null);
+
+        //if database isn't empty proceed
+        if(cursor.moveToFirst())
+        {
+            //loop through all elements of database that adds them to returnList
+            do
+            {
+                int ID = cursor.getInt(0);
+                String workout_name = cursor.getString(1);
+                String workout_type = cursor.getString(2);
+                int exercises_count = cursor.getInt(3);
+                String workout_image_URL = cursor.getString(4);
+
+                boolean isOriginal = true;
+
+                //Determining if exercise was originally in database or was created by user
+                if(cursor.getInt(5) == 0)
+                {
+                    isOriginal = false;
+                }
+
+                Workout workout = new Workout(ID, workout_name, workout_type, exercises_count, workout_image_URL, isOriginal);
+                returnList.add(workout);
+
+            }while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return returnList;
     }
 }

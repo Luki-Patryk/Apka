@@ -50,7 +50,7 @@ public class WorkoutFragment extends Fragment {
 
 
         plansFragment = new PlansFragment();
-        suggestedWorkoutsFragment = new UserWorkoutsFragment();
+        suggestedWorkoutsFragment = new UserWorkoutsFragment(mContext);
 
 
         topNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()

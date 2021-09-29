@@ -15,12 +15,12 @@
         android:id="@+id/suggested_workouts_textView"/>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/suggested_workouts_recView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/suggested_workouts_textView"
         android:layout_marginTop="10dp"
-        android:paddingHorizontal="10dp"
-        android:id="@+id/suggested_workouts_recView"/>
+        android:paddingHorizontal="20dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -39,6 +39,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/user_workouts_textView"
         android:layout_marginTop="10dp"
-        android:paddingHorizontal="10dp" />
+        android:paddingHorizontal="20dp" />
 
 </RelativeLayout>
