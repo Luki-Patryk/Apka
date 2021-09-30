@@ -34,7 +34,7 @@
         android:layout_below="@id/suggested_workouts_recView"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/user_wokrouts_recView"
+        android:id="@+id/user_workouts_recView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/user_workouts_textView"

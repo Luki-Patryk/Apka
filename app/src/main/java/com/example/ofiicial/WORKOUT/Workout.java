@@ -4,16 +4,16 @@ public class Workout
 {
     int ID;
     String workout_name;
-    String workout_type;
+    int estimated_workout_time;
     int exercises_count;
     String workout_image_URL;
     boolean isOriginal;
 
-    public Workout(int ID, String workout_name, String workout_type, int exercises_count, String workout_image_URL, boolean isOriginal)
+    public Workout(int ID, String workout_name, int estimated_workout_time, int exercises_count, String workout_image_URL, boolean isOriginal)
     {
         this.ID = ID;
         this.workout_name = workout_name;
-        this.workout_type = workout_type;
+        this.estimated_workout_time = estimated_workout_time;
         this.exercises_count = exercises_count;
         this.workout_image_URL = workout_image_URL;
         this.isOriginal = isOriginal;
@@ -39,14 +39,14 @@ public class Workout
         isOriginal = original;
     }
 
-    public String getWorkout_type()
+    public int getEstimated_workout_time()
     {
-        return workout_type;
+        return estimated_workout_time;
     }
 
-    public void setWorkout_type(String workout_type)
+    public void setEstimated_workout_time(int estimated_workout_time)
     {
-        this.workout_type = workout_type;
+        this.estimated_workout_time = estimated_workout_time;
     }
 
     public int getExercises_count()

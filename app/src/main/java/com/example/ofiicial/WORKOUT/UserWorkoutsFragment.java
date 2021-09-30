@@ -3,9 +3,7 @@ package com.example.ofiicial.WORKOUT;
 import android.content.Context;
 import android.os.Bundle;
 
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,10 +20,10 @@ public class UserWorkoutsFragment extends Fragment
 {
 
     private Context mContext;
-    private ArrayList<Workout> workouts = new ArrayList<>();
+    private ArrayList<Workout> suggestedWorkouts = new ArrayList<>(), userCreatedWorkouts = new ArrayList<>();
     private ExercisesDataBaseAccess dataBaseAccess;
-    private RecyclerView workoutsRecView;
-    private WorkoutsRecViewAdapter adapter;
+    private RecyclerView suggestedWorkoutsRecView, userCreatedWorkoutsRecView;
+    private WorkoutsRecViewAdapter suggestedWorkoutsAdapter, userCreatedWorkoutsAdapter;
 
     public UserWorkoutsFragment(Context mContext)
     {
@@ -40,15 +38,33 @@ public class UserWorkoutsFragment extends Fragment
 
         //TODO: Create table in database and display workouts for suggested and user workouts
 
-        workouts.add(new Workout(0, "Pierwszy trening", true, "FBW", 8, null));
+        //Handling top recview with suggested workouts
+        suggestedWorkoutsAdapter = new WorkoutsRecViewAdapter();
 
-        adapter = new WorkoutsRecViewAdapter();
-        adapter.setWorkouts(workouts);
+        suggestedWorkoutsRecView = view.findViewById(R.id.suggested_workouts_recView);
 
-        workoutsRecView = view.findViewById(R.id.suggested_workouts_recView);
+        suggestedWorkoutsRecView.setAdapter(suggestedWorkoutsAdapter);
+        suggestedWorkoutsRecView.setLayoutManager(new LinearLayoutManager(mContext));
 
-        workoutsRecView.setAdapter(adapter);
-        workoutsRecView.setLayoutManager(new LinearLayoutManager(mContext));
+        dataBaseAccess = ExercisesDataBaseAccess.getInstance(mContext);
+        dataBaseAccess.open();
+        suggestedWorkouts = dataBaseAccess.getSuggestedWorkoutsAtoZ();
+        dataBaseAccess.close();
+        suggestedWorkoutsAdapter.setWorkouts(suggestedWorkouts);
+
+
+        //Handling bottom recview with user workouts
+        userCreatedWorkoutsAdapter = new WorkoutsRecViewAdapter();
+
+        userCreatedWorkoutsRecView = view.findViewById(R.id.user_workouts_recView);
+
+        userCreatedWorkoutsRecView.setAdapter(userCreatedWorkoutsAdapter);
+        userCreatedWorkoutsRecView.setLayoutManager(new LinearLayoutManager(mContext));
+
+        dataBaseAccess.open();
+        userCreatedWorkouts = dataBaseAccess.getUserCreatedWorkoutsAtoZ();
+        dataBaseAccess.close();
+        userCreatedWorkoutsAdapter.setWorkouts(userCreatedWorkouts);
 
         return view;
     }

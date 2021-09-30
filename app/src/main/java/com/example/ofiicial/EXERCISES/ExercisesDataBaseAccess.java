@@ -578,13 +578,14 @@ public class ExercisesDataBaseAccess
         database.delete(EXERCISES_TABLE, "id == " + ID, null);
     }
 
-    //Getting all workouts in A to Z order
-    public ArrayList<Workout> getWorkoutsAtoZ()
+    //Getting all workouts that was originally in application in A to Z order
+    public ArrayList<Workout> getSuggestedWorkoutsAtoZ()
     {
         ArrayList<Workout> returnList = new ArrayList<>();
 
         String queryString = "SELECT * \n" +
                 "FROM " + WORKOUT_TABLE + "\n" +
+                "WHERE " + IS_WORKOUT_ORIGINAL + " = 1 \n" +
                 "ORDER BY " + WORKOUT_TABLE_ID + " ASC";
 
         Cursor cursor = database.rawQuery(queryString, null);
@@ -597,7 +598,7 @@ public class ExercisesDataBaseAccess
             {
                 int ID = cursor.getInt(0);
                 String workout_name = cursor.getString(1);
-                String workout_type = cursor.getString(2);
+                int estimated_workout_time = cursor.getInt(2);
                 int exercises_count = cursor.getInt(3);
                 String workout_image_URL = cursor.getString(4);
 
@@ -609,7 +610,49 @@ public class ExercisesDataBaseAccess
                     isOriginal = false;
                 }
 
-                Workout workout = new Workout(ID, workout_name, workout_type, exercises_count, workout_image_URL, isOriginal);
+                Workout workout = new Workout(ID, workout_name, estimated_workout_time, exercises_count, workout_image_URL, isOriginal);
+                returnList.add(workout);
+
+            }while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return returnList;
+    }
+
+    //Getting all workouts created by user in A to Z order
+    public ArrayList<Workout> getUserCreatedWorkoutsAtoZ()
+    {
+        ArrayList<Workout> returnList = new ArrayList<>();
+
+        String queryString = "SELECT * \n" +
+                "FROM " + WORKOUT_TABLE + "\n" +
+                "WHERE " + IS_WORKOUT_ORIGINAL + " = 0 \n" +
+                "ORDER BY " + WORKOUT_TABLE_ID + " ASC";
+
+        Cursor cursor = database.rawQuery(queryString, null);
+
+        //if database isn't empty proceed
+        if(cursor.moveToFirst())
+        {
+            //loop through all elements of database that adds them to returnList
+            do
+            {
+                int ID = cursor.getInt(0);
+                String workout_name = cursor.getString(1);
+                int estimated_workout_time = cursor.getInt(2);
+                int exercises_count = cursor.getInt(3);
+                String workout_image_URL = cursor.getString(4);
+
+                boolean isOriginal = true;
+
+                //Determining if exercise was originally in database or was created by user
+                if(cursor.getInt(5) == 0)
+                {
+                    isOriginal = false;
+                }
+
+                Workout workout = new Workout(ID, workout_name, estimated_workout_time, exercises_count, workout_image_URL, isOriginal);
                 returnList.add(workout);
 
             }while (cursor.moveToNext());
