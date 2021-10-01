@@ -92,7 +92,7 @@ public class UserDataBaseAccess
     {
         boolean is_emails_equals = false;
 
-        String queryString = "SELECT  user_table.user_email\n" +
+        String queryString = "SELECT  user_table.user_email " +
                 "FROM user_table";
 
         Cursor cursor = profile_database.rawQuery(queryString, null);
@@ -140,6 +140,9 @@ public class UserDataBaseAccess
 
     public boolean checkUsername(String username)
     {
+        System.out.println("!!!!!!!!!!!!!! O TO CHODZI !!!!!!!!!!!!!!!!");
+        System.out.println(username);
+
         boolean is_username_took = false;
 
         String queryString = "SELECT user_name" +
@@ -151,12 +154,13 @@ public class UserDataBaseAccess
         {
             do
             {
-                if(cursor.getString(0).equals(username));
+                if(cursor.getString(0).equals(username))
                 {
                     is_username_took = true;
                 }
             }while (cursor.moveToNext());
         }
+        System.out.println(is_username_took);
         return is_username_took;
     }
 

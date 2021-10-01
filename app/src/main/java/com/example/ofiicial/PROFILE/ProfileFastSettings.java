@@ -281,16 +281,22 @@ public class ProfileFastSettings extends AppCompatActivity implements View.OnCli
                 userDataBaseAccess = UserDataBaseAccess.getProfile_instance(getApplicationContext());
                 userDataBaseAccess.open();
 
-                if(userDataBaseAccess.checkUsername(fast_settings_username_change_edit_txt.getText().toString().trim()))
+                if(!userDataBaseAccess.checkUsername(fast_settings_username_change_edit_txt.getText().toString().trim()))
                 {
                     fast_settings_txt_change_username.setText(fast_settings_username_change_edit_txt.getText().toString().trim());
+                    fast_settings_txt_change_username.setVisibility(View.VISIBLE);
+                    fast_settings_txt_username.setVisibility(View.VISIBLE);
+                    fast_settings_username_change_edit_txt.setVisibility(View.GONE);
                 }
+                else
+                {
+                    Toast.makeText(activity, "Try another nick", Toast.LENGTH_SHORT).show();
+                }
+
                 userDataBaseAccess.close();
             }
 
-            fast_settings_txt_change_username.setVisibility(View.VISIBLE);
-            fast_settings_txt_username.setVisibility(View.VISIBLE);
-            fast_settings_username_change_edit_txt.setVisibility(View.GONE);
+
         }
     }
 

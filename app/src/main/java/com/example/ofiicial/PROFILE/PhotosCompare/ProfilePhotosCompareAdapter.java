@@ -1,5 +1,6 @@
 package com.example.ofiicial.PROFILE.PhotosCompare;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ofiicial.R;
@@ -27,8 +29,9 @@ public class ProfilePhotosCompareAdapter extends RecyclerView.Adapter<ProfilePho
 
     ArrayList<Photos> photos = new ArrayList<>();
 
-    public ProfilePhotosCompareAdapter()
+    public ProfilePhotosCompareAdapter(Context context)
     {
+        this.context = context;
     }
 
     @Override
@@ -91,6 +94,7 @@ public class ProfilePhotosCompareAdapter extends RecyclerView.Adapter<ProfilePho
                     view.getContext().startActivity(intent);
                 }
             });
+
         }
     }
 

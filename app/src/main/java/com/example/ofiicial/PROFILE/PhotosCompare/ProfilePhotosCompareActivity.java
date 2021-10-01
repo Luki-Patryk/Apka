@@ -74,7 +74,7 @@ public class ProfilePhotosCompareActivity extends AppCompatActivity implements V
         photosRecView.setLayoutManager(gridLayoutManager);
 
         //specify an adapter
-        mAdapter = new ProfilePhotosCompareAdapter();
+        mAdapter = new ProfilePhotosCompareAdapter(getApplicationContext());
         photosRecView.setAdapter(mAdapter);
 
         profilePhotosCompareDataBaseAccess = ProfilePhotosCompareDataBaseAccess.getPhoto_instance(getApplicationContext());
@@ -106,11 +106,14 @@ public class ProfilePhotosCompareActivity extends AppCompatActivity implements V
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        profilePhotosCompareDataBaseAccess.open();
-        photos = profilePhotosCompareDataBaseAccess.getAllPhotos();
-        profilePhotosCompareDataBaseAccess.close();
-        mAdapter.setPhotos(photos);
-        mAdapter.notifyDataSetChanged();
+        if(resultCode == 3)
+        {
+            profilePhotosCompareDataBaseAccess.open();
+            photos = profilePhotosCompareDataBaseAccess.getAllPhotos();
+            profilePhotosCompareDataBaseAccess.close();
+            mAdapter.setPhotos(photos);
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
 }

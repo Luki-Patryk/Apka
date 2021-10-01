@@ -12,7 +12,9 @@ import android.widget.Toast;
 
 import com.example.ofiicial.PROFILE.PhotosCompare.PhotoDatabaseStuff.ProfilePhotosCompareDataBaseAccess;
 import com.example.ofiicial.R;
+//TODO: Upgrade layout
 
+//TODO: make function for showing only imageView!
 public class ProfilePhototComparePhotoShow extends AppCompatActivity implements View.OnClickListener
 {
     private ProfilePhotosCompareDataBaseAccess profilePhotosCompareDataBaseAccess;
@@ -74,7 +76,6 @@ public class ProfilePhototComparePhotoShow extends AppCompatActivity implements 
         profilePhotosCompareDataBaseAccess.deletePhotoById(getIntent().getIntExtra("ID", -1));
         profilePhotosCompareDataBaseAccess.close();
 
-        mAdapter = new ProfilePhotosCompareAdapter();
         finish();
     }
 }
