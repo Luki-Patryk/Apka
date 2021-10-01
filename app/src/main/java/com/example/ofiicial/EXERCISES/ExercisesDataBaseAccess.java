@@ -661,4 +661,36 @@ public class ExercisesDataBaseAccess
         cursor.close();
         return returnList;
     }
+
+    public Workout getWorkoutById(int id)
+    {
+        Workout workout = new Workout(0, null, 0, 0, null, false);
+
+        String queryString = "SELECT * \n" +
+                "FROM " + WORKOUT_TABLE + "\n" +
+                "WHERE " + WORKOUT_TABLE_ID + " = " + id;
+
+        Cursor cursor = database.rawQuery(queryString, null);
+
+        if(cursor.moveToFirst())
+        {
+            int ID = cursor.getInt(0);
+            String workout_name = cursor.getString(1);
+            int estimated_workout_time = cursor.getInt(2);
+            int exercises_count = cursor.getInt(3);
+            String workout_image_URL = cursor.getString(4);
+
+            boolean isOriginal = true;
+
+            //Determining if exercise was originally in database or was created by user
+            if(cursor.getInt(5) == 0)
+            {
+                isOriginal = false;
+            }
+
+            workout = new Workout(ID, workout_name, estimated_workout_time, exercises_count, workout_image_URL, isOriginal);
+        }
+
+        return workout;
+    }
 }

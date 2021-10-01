@@ -1,8 +1,10 @@
 package com.example.ofiicial.WORKOUT;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -50,12 +52,24 @@ public class WorkoutsRecViewAdapter extends RecyclerView.Adapter<WorkoutsRecView
     public class ViewHolder extends RecyclerView.ViewHolder
     {
         private TextView workout_name, estimated_workout_time, exercises_count;
+        private LinearLayout workout_layout;
+
         public ViewHolder(@NonNull View itemView)
         {
             super(itemView);
             workout_name = itemView.findViewById(R.id.workout_name);
             estimated_workout_time = itemView.findViewById(R.id.estimated_workout_time);
             exercises_count = itemView.findViewById(R.id.exercises_count);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(itemView.getContext(),WorkoutDetailsActivity.class);
+                    intent.putExtra("WORKOUT_ID", workouts.get(getAdapterPosition()).getID());
+                    view.getContext().startActivity(intent);
+                }
+            });
+
         }
     }
 }

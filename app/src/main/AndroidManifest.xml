@@ -12,7 +12,10 @@
         android:roundIcon="@drawable/ic_dumbbell"
         android:supportsRtl="true"
         android:theme="@style/Theme.Ofiicial">
-        <activity android:name=".PROFILE.PhotosCompare.ProfilePhototComparePhotoShow"></activity>
+        <activity
+            android:name=".WORKOUT.WorkoutDetailsActivity"
+            android:exported="true" />
+        <activity android:name=".PROFILE.PhotosCompare.ProfilePhototComparePhotoShow" />
         <activity android:name=".PROFILE.PhotosCompare.ProfilePhotosComparePhotoAddingActivity" />
         <activity android:name=".PROFILE.PhotosCompare.ProfilePhotosCompareActivity" />
         <activity android:name=".PROFILE.ProfileMeasurements" />
