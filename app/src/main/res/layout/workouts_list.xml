@@ -38,6 +38,6 @@
         android:layout_marginTop="2dp"
         android:layout_marginRight="10dp"
         android:layout_alignParentRight="true"
-        android:id="@+id/exercises_count"/>
+        android:id="@+id/exercises_count_in_workouts_list"/>
 
 </RelativeLayout>

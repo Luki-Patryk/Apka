@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -52,14 +51,13 @@ public class WorkoutsRecViewAdapter extends RecyclerView.Adapter<WorkoutsRecView
     public class ViewHolder extends RecyclerView.ViewHolder
     {
         private TextView workout_name, estimated_workout_time, exercises_count;
-        private LinearLayout workout_layout;
 
         public ViewHolder(@NonNull View itemView)
         {
             super(itemView);
             workout_name = itemView.findViewById(R.id.workout_name);
             estimated_workout_time = itemView.findViewById(R.id.estimated_workout_time);
-            exercises_count = itemView.findViewById(R.id.exercises_count);
+            exercises_count = itemView.findViewById(R.id.exercises_count_in_workouts_list);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

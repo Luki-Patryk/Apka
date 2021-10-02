@@ -3,11 +3,12 @@ package com.example.ofiicial.WORKOUT;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ofiicial.EXERCISES.Exercises;
 import com.example.ofiicial.R;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 public class ExercisesInWorkoutDetailsRecViewAdapter extends RecyclerView.Adapter<ExercisesInWorkoutDetailsRecViewAdapter.ViewHolder>
 {
 
-    private ArrayList<Exercises> exercises = new ArrayList<>();
+    private ArrayList<ExerciseByWorkout> exerciseByWorkouts = new ArrayList<>();
 
     public ExercisesInWorkoutDetailsRecViewAdapter(){}
 
@@ -31,21 +32,37 @@ public class ExercisesInWorkoutDetailsRecViewAdapter extends RecyclerView.Adapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
-
+        //TODO: finish this holder and create method in database to get this data
+        holder.exerciseName.setText(exerciseByWorkouts.get(position).getExercise_name());
+        holder.exerciseType.setText(exerciseByWorkouts.get(position).getExercise_type());
+        holder.exerciseRepsSets.setText("Reps: " + String.valueOf(exerciseByWorkouts.get(position).getSets()) + "x" + String.valueOf(exerciseByWorkouts.get(position).getReps()));
     }
 
     @Override
     public int getItemCount()
     {
-        return exercises.size();
+        return exerciseByWorkouts.size();
     }
 
+    public void setExerciseByWorkouts(ArrayList<ExerciseByWorkout> exerciseByWorkouts)
+    {
+        this.exerciseByWorkouts = exerciseByWorkouts;
+        notifyDataSetChanged();
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
+
+        private ImageView exerciseImage;
+        private TextView exerciseType, exerciseName, exerciseRepsSets;
+
         public ViewHolder(@NonNull View itemView)
         {
             super(itemView);
+            exerciseImage = itemView.findViewById(R.id.exercise_in_workoutDetails_image);
+            exerciseName = itemView.findViewById(R.id.exercise_in_workoutDetails_name);
+            exerciseType = itemView.findViewById(R.id.exercise_in_workoutDetails_type);
+            exerciseRepsSets = itemView.findViewById(R.id.exercise_in_workoutDetails_reps);
         }
     }
 }

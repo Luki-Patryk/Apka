@@ -17,31 +17,31 @@
         android:layout_marginTop="10dp">
 
         <ImageView
-            android:id="@+id/exerciseImg"
+            android:id="@+id/exercise_in_workoutDetails_image"
             android:layout_width="86dp"
             android:layout_height="85dp"
             android:src="@mipmap/ic_launcher" />
 
         <TextView
-            android:id="@+id/exerciseName"
+            android:id="@+id/exercise_in_workoutDetails_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
-            android:layout_toRightOf="@+id/exerciseImg"
+            android:layout_toRightOf="@+id/exercise_in_workoutDetails_image"
             android:text="Exercise name"
             android:textSize="20dp"
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/exerciseType"
+            android:id="@+id/exercise_in_workoutDetails_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/exerciseName"
+            android:layout_below="@+id/exercise_in_workoutDetails_name"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="20dp"
-            android:layout_toRightOf="@+id/exerciseImg"
+            android:layout_toRightOf="@+id/exercise_in_workoutDetails_image"
             android:text="Exercises type"
             android:textStyle="italic"/>
 

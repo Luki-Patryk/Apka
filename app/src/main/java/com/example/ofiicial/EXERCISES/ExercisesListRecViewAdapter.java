@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -65,9 +64,9 @@ public class ExercisesListRecViewAdapter extends RecyclerView.Adapter<ExercisesL
         public ViewHolder(@NonNull View itemView)
         {
             super(itemView);
-            exerciseName = itemView.findViewById(R.id.exerciseName);
-            exerciseImg = itemView.findViewById(R.id.exerciseImg);
-            exerciseType = itemView.findViewById(R.id.exerciseType);
+            exerciseName = itemView.findViewById(R.id.exercise_in_workoutDetails_name);
+            exerciseImg = itemView.findViewById(R.id.exercise_in_workoutDetails_image);
+            exerciseType = itemView.findViewById(R.id.exercise_in_workoutDetails_type);
 
             //Exercises pop-up part
             exercise_layout = itemView.findViewById(R.id.exercise_list_layout);
