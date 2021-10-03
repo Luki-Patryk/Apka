@@ -10,6 +10,7 @@ import com.example.ofiicial.EXERCISES.Exercises;
 import com.example.ofiicial.EXERCISES.ExercisesDataBaseOpenHelper;
 import com.example.ofiicial.EXERCISES.ExercisesTypes;
 import com.example.ofiicial.Fragment.ExercisesFragment;
+import com.example.ofiicial.WORKOUT.ExerciseByWorkout;
 import com.example.ofiicial.WORKOUT.Workout;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class ExercisesDataBaseAccess
     public static final String EXERCISE_TYPE_TABLE_ID = "EXERCISE_TYPE_TABLE.id";
     public static final String EXERCISE_TYPE = "EXERCISE_TYPE_TABLE.exercise_type";
     public static final String WORKOUT_LIST_TABLE = "WORKOUT_LIST_TABLE";
-    public static final String WORKOUT_LIST_TABLE_EXERCISE_ID = "EXERCISE_TYPE_TABLE.exercise_id";
+    public static final String WORKOUT_LIST_TABLE_EXERCISE_ID = "WORKOUT_LIST_TABLE.exercise_id";
     public static final String WORKOUT_LIST_TABLE_WORKOUT_ID = "WORKOUT_LIST_TABLE.workout_id";
     public static final String WORKOUT_TABLE = "WORKOUT_TABLE";
     public static final String WORKOUT_TABLE_ID = "WORKOUT_TABLE.id";
@@ -40,6 +41,8 @@ public class ExercisesDataBaseAccess
     public static final String WORKOUT_EXERCISES_COUNT = "WORKOUT_TABLE.exercises_count";
     public static final String WORKOUT_IMAGE_URL = "WORKOUT_TABLE.workout_image_URL";
     public static final String IS_WORKOUT_ORIGINAL = "WORKOUT_TABLE.is_workout_original";
+    public static final String EXERCISE_SETS = "WORKOUT_LIST_TABLE.exercise_sets";
+    public static final String EXERCISE_REPS = "WORKOUT_LIST_TABLE.exercise_reps";
 
     //private constructor to make sure that this object will not be created outside this class
     private ExercisesDataBaseAccess(Context context)
@@ -298,6 +301,7 @@ public class ExercisesDataBaseAccess
     }
 
     //Adding exercise to a database
+    //TODO: Check if this can be void type
     public ArrayList<Exercises> addExercise(String name, String type, String URL)
     {
         ArrayList<Exercises> returnList = getAllExercises();
@@ -692,5 +696,61 @@ public class ExercisesDataBaseAccess
         }
 
         return workout;
+    }
+
+    public ArrayList<ExerciseByWorkout> getExercisesByWorkoutAtoZ(int workoutID)
+    {
+        ArrayList<ExerciseByWorkout> returnList = new ArrayList<>();
+
+        String queryString =
+        "SELECT " + "\n" +
+                EXERCISES_TABLE_ID + ",\n" +
+                EXERCISE_NAME + ",\n" +
+                EXERCISE_TYPE + ",\n" +
+                EXERCISE_IMAGE_URL + ",\n" +
+                IS_EXERCISE_ORIGINAL + ",\n" +
+                EXERCISE_SETS + ",\n" +
+                EXERCISE_REPS + "\n" +
+        "FROM " + "\n" +
+                WORKOUT_LIST_TABLE + "\n" +
+        "INNER JOIN " + "\n" +
+                EXERCISES_TABLE + "\n" +
+        "ON " + "\n" +
+                EXERCISES_TABLE_ID + " = " + WORKOUT_LIST_TABLE_EXERCISE_ID + "\n" +
+        "INNER JOIN " + "\n" +
+                EXERCISE_TYPE_TABLE + "\n" +
+        "ON " + "\n" +
+                EXERCISE_TYPE_TABLE_ID + " = " + EXERCISE_TYPE_ID + "\n" +
+        "WHERE " + "\n" +
+                WORKOUT_LIST_TABLE_WORKOUT_ID + " = " + String.valueOf(workoutID) + "\n" +
+        "ORDER BY " + "\n" +
+                EXERCISE_TYPE_TABLE_ID + "\n" +
+        "ASC";
+
+        Cursor cursor = database.rawQuery(queryString, null);
+
+        if (cursor.moveToFirst())
+        {
+            do
+            {
+                int ID = cursor.getInt(0);
+                String name = cursor.getString(1);
+                String type = cursor.getString(2);
+                String image_URL = cursor.getString(3);
+                boolean is_original = true;
+                if(cursor.getInt(4) == 0)
+                {
+                    is_original = false;
+                }
+                int sets = cursor.getInt(5);
+                int reps = cursor.getInt(6);
+
+                ExerciseByWorkout exerciseByWorkout = new ExerciseByWorkout(ID, name, type, image_URL, is_original, sets, reps);
+                returnList.add(exerciseByWorkout);
+
+            }while (cursor.moveToNext());
+        }
+
+        return returnList;
     }
 }

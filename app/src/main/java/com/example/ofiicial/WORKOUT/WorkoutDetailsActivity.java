@@ -60,11 +60,10 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
         exercisesInWorkoutDetailsRecView.setAdapter(exercisesInWorkoutDetailsAdapter);
         exercisesInWorkoutDetailsRecView.setLayoutManager(new LinearLayoutManager(this));
 
-        exerciseByWorkouts.add(new ExerciseByWorkout(0, "Nazwa", "Typik", null, true, 3, 8));
+        dataBaseAccess.open();
+        exerciseByWorkouts = dataBaseAccess.getExercisesByWorkoutAtoZ(workout_id);
+        dataBaseAccess.close();
         exercisesInWorkoutDetailsAdapter.setExerciseByWorkouts(exerciseByWorkouts);
-
-
-
 
 
 
