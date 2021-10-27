@@ -753,4 +753,10 @@ public class ExercisesDataBaseAccess
 
         return returnList;
     }
+
+    public void deleteExerciseByWorkout(int ID)
+    {
+        database.delete(WORKOUT_LIST_TABLE, "exercise_id == " + ID, null);
+    }
+
 }
