@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ofiicial.EXERCISES.ExercisesDataBaseAccess;
 import com.example.ofiicial.R;
@@ -28,7 +27,7 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
     private ArrayList<ExerciseByWorkout> exerciseByWorkouts = new ArrayList<>();
     private RecyclerView exercisesInWorkoutDetailsRecView;
     private ExercisesInWorkoutDetailsRecViewAdapter exercisesInWorkoutDetailsAdapter;
-    private Button backButton, editButton;
+    private Button backButton, addExerciseButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +46,14 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
             }
         });
 
-        editButton.setOnClickListener(new View.OnClickListener()
+        addExerciseButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
+                Intent addExerciseIntent = new Intent(getApplicationContext(), AddExerciseToWorkoutActivity.class);
+                addExerciseIntent.putExtra("WORKOUT_ID", workout_id);
+                startActivity(addExerciseIntent);
             }
         });
 
@@ -63,7 +65,7 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
         exercisesCountTextView = findViewById(R.id.workoutDetails_exercises_count_textView);
         estimatedTimeTextView = findViewById(R.id.workoutDetails_workout_estimated_time);
         backButton = findViewById(R.id.workoutDetails_back_btn);
-        editButton = findViewById(R.id.workoutDetails_edit_btn);
+        addExerciseButton = findViewById(R.id.workoutDetails_addExercise_btn);
 
         intent = getIntent();
         workout_id = intent.getIntExtra("WORKOUT_ID", 0);
@@ -71,7 +73,7 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
 
         dataBaseAccess = ExercisesDataBaseAccess.getInstance(this);
         dataBaseAccess.open();
-        workout = dataBaseAccess.getWorkoutById(intent.getIntExtra("WORKOUT_ID", 0));
+        workout = dataBaseAccess.getWorkoutById(workout_id);
         dataBaseAccess.close();
 
         workoutNameTextView.setText(workout.getWorkout_name());
@@ -108,8 +110,11 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction)
         {
             dataBaseAccess.open();
-            //get id of exerciseByWorkout by getting a position of dragged item from viewHolder
-            dataBaseAccess.deleteExerciseByWorkout(exerciseByWorkouts.get(viewHolder.getAdapterPosition()).getID());
+            //get id of exerciseByWorkout by getting a position of dragged item from viewHolder,
+            // pass workout id aswell to delete exercise only from this workout
+            dataBaseAccess.deleteExerciseByWorkout(exerciseByWorkouts.get(viewHolder.getAdapterPosition()).getID(), workout_id);
+            workout = dataBaseAccess.getWorkoutById(workout_id);
+            exercisesCountTextView.setText("Exercises count: " + String.valueOf(workout.getExercises_count()));
             exerciseByWorkouts = dataBaseAccess.getExercisesByWorkoutAtoZ(workout_id);
             exercisesInWorkoutDetailsAdapter.setExerciseByWorkouts(exerciseByWorkouts);
             dataBaseAccess.close();

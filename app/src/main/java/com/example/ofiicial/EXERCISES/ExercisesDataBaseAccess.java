@@ -754,9 +754,27 @@ public class ExercisesDataBaseAccess
         return returnList;
     }
 
-    public void deleteExerciseByWorkout(int ID)
+    //delete exercise from workout by passed exercise id and workout id
+    public void deleteExerciseByWorkout(int exerciseID, int workoutID)
     {
-        database.delete(WORKOUT_LIST_TABLE, "exercise_id == " + ID, null);
+        int exercises_count = 0;
+
+        database.delete(WORKOUT_LIST_TABLE,  "exercise_id = " + exerciseID + " AND workout_id = " + workoutID, null);
+
+        String queryString = "SELECT " + WORKOUT_EXERCISES_COUNT +
+                " FROM " + WORKOUT_TABLE +
+                " WHERE " + WORKOUT_TABLE_ID + " = 1";
+
+        Cursor cursor = database.rawQuery(queryString, null);
+
+        if(cursor.moveToFirst())
+        {
+            exercises_count = cursor.getInt(0);
+        }
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("exercises_count", exercises_count-1);
+        database.update(WORKOUT_TABLE, contentValues, "id = " + workoutID, null);
     }
 
 }

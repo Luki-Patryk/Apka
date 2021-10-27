@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ofiicial">
         <activity
+            android:name=".WORKOUT.AddExerciseToWorkoutActivity"
+            android:exported="true" />
+        <activity
             android:name=".WORKOUT.WorkoutDetailsActivity"
             android:exported="true" />
         <activity android:name=".PROFILE.PhotosCompare.ProfilePhototComparePhotoShow" />
