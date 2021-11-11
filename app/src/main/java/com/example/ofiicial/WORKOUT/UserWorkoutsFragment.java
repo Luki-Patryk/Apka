@@ -36,8 +36,6 @@ public class UserWorkoutsFragment extends Fragment
     {
         View view = inflater.inflate(R.layout.fragment_user_workouts, container, false);
 
-        //TODO: Create table in database and display workouts for suggested and user workouts
-
         //Handling top recview with suggested workouts
         suggestedWorkoutsAdapter = new WorkoutsRecViewAdapter();
 
