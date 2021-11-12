@@ -68,7 +68,7 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
         addExerciseButton = findViewById(R.id.workoutDetails_addExercise_btn);
 
         intent = getIntent();
-        workout_id = intent.getIntExtra("WORKOUT_ID", 0);
+        workout_id = intent.getIntExtra("WORKOUT_ID", -1);
         //TODO: if workout_id value is 0 create warning because something went wrong
 
         dataBaseAccess = ExercisesDataBaseAccess.getInstance(this);

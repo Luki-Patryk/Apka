@@ -32,7 +32,6 @@ public class ExercisesInWorkoutDetailsRecViewAdapter extends RecyclerView.Adapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
-        //TODO: finish this holder and create method in database to get this data
         holder.exerciseName.setText(exerciseByWorkouts.get(position).getExercise_name());
         holder.exerciseType.setText(exerciseByWorkouts.get(position).getExercise_type());
         holder.exerciseRepsSets.setText("Reps: " + String.valueOf(exerciseByWorkouts.get(position).getSets()) + "x" + String.valueOf(exerciseByWorkouts.get(position).getReps()));

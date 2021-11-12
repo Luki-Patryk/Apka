@@ -1,14 +1,17 @@
 package com.example.ofiicial.WORKOUT;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.ofiicial.EXERCISES.ExercisesDataBaseAccess;
 import com.example.ofiicial.R;
 
 import java.util.ArrayList;
@@ -16,6 +19,8 @@ import java.util.ArrayList;
 public class WorkoutsRecViewAdapter extends RecyclerView.Adapter<WorkoutsRecViewAdapter.ViewHolder>
 {
     private ArrayList<Workout> workouts = new ArrayList<>();
+    private ExercisesDataBaseAccess dataBaseAccess;
+    private Context mContext;
 
     public WorkoutsRecViewAdapter(){};
 
@@ -23,14 +28,21 @@ public class WorkoutsRecViewAdapter extends RecyclerView.Adapter<WorkoutsRecView
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
+        mContext = parent.getContext();
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.workouts_list, parent, false);
         WorkoutsRecViewAdapter.ViewHolder vHolder = new WorkoutsRecViewAdapter.ViewHolder(view);
+        dataBaseAccess = ExercisesDataBaseAccess.getInstance(mContext);
         return vHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
+        //Update exercises count every time displaying recycler view
+        dataBaseAccess.open();
+        workouts.get(position).setExercises_count(dataBaseAccess.updateWorkoutExercisesCount(workouts.get(position).getID()));
+        dataBaseAccess.close();
+
         holder.workout_name.setText(workouts.get(position).getWorkout_name());
         holder.estimated_workout_time.setText("Estimated time: " + String.valueOf(workouts.get(position).getEstimated_workout_time()) + "min");
         holder.exercises_count.setText("Exercises count: " + String.valueOf(workouts.get(position).getExercises_count()));
@@ -58,6 +70,7 @@ public class WorkoutsRecViewAdapter extends RecyclerView.Adapter<WorkoutsRecView
             workout_name = itemView.findViewById(R.id.workout_name);
             estimated_workout_time = itemView.findViewById(R.id.estimated_workout_time);
             exercises_count = itemView.findViewById(R.id.exercises_count_in_workouts_list);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

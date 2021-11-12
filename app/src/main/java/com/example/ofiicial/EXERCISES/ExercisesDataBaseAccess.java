@@ -775,6 +775,37 @@ public class ExercisesDataBaseAccess
         ContentValues contentValues = new ContentValues();
         contentValues.put("exercises_count", exercises_count-1);
         database.update(WORKOUT_TABLE, contentValues, "id = " + workoutID, null);
+
+        cursor.close();
     }
 
+    public int updateWorkoutExercisesCount (int workoutID)
+    {
+        int exercises_count = 0;
+
+        String queryString =
+                "SELECT * " +
+                "FROM " + WORKOUT_LIST_TABLE + " " +
+                "WHERE " + WORKOUT_LIST_TABLE_WORKOUT_ID + " = " + workoutID;
+
+        Cursor cursor = database.rawQuery(queryString, null);
+
+        //Looping through all results of query to count all exercises in particular workout
+        if(cursor.moveToFirst())
+        {
+            exercises_count++;
+            while (cursor.moveToNext())
+            {
+                exercises_count++;
+            }
+        }
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("exercises_count", exercises_count);
+        database.update(WORKOUT_TABLE, contentValues, "id = " + workoutID, null);
+
+        cursor.close();
+
+        return exercises_count;
+    }
 }
