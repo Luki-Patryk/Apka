@@ -186,4 +186,14 @@ public class ExercisesFragment extends Fragment
         }
 
     }
+
+    @Override
+    public void onStart()
+    {
+        dataBaseAccess.open();
+        exercises = dataBaseAccess.getAllExercises();
+        dataBaseAccess.close();
+        adapter.setExercises(exercises);
+        adapter.notifyDataSetChanged();
+    }
 }

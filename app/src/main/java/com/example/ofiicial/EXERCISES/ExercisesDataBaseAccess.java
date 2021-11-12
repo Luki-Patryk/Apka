@@ -666,6 +666,7 @@ public class ExercisesDataBaseAccess
         return returnList;
     }
 
+    //Getting workout by pased id
     public Workout getWorkoutById(int id)
     {
         Workout workout = new Workout(0, null, 0, 0, null, false);
@@ -698,6 +699,7 @@ public class ExercisesDataBaseAccess
         return workout;
     }
 
+    //Getting all exercises by passed workoutID in A to Z order
     public ArrayList<ExerciseByWorkout> getExercisesByWorkoutAtoZ(int workoutID)
     {
         ArrayList<ExerciseByWorkout> returnList = new ArrayList<>();
