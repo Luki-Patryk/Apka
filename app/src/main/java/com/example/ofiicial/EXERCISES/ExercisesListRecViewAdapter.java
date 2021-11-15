@@ -64,9 +64,9 @@ public class ExercisesListRecViewAdapter extends RecyclerView.Adapter<ExercisesL
         public ViewHolder(@NonNull View itemView)
         {
             super(itemView);
-            exerciseName = itemView.findViewById(R.id.exercise_in_workoutDetails_name);
-            exerciseImg = itemView.findViewById(R.id.exercise_in_workoutDetails_image);
-            exerciseType = itemView.findViewById(R.id.exercise_in_workoutDetails_type);
+            exerciseName = itemView.findViewById(R.id.exercise_in_add_exercise_to_workout_name);
+            exerciseImg = itemView.findViewById(R.id.exercise_in_add_exercise_to_workout_image);
+            exerciseType = itemView.findViewById(R.id.exercise_in_add_exercise_to_workout_type);
 
             //Exercises pop-up part
             exercise_layout = itemView.findViewById(R.id.exercise_list_layout);

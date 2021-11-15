@@ -1,10 +1,16 @@
 package com.example.ofiicial.WORKOUT;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.SearchView;
 
 import com.example.ofiicial.EXERCISES.Exercises;
@@ -19,12 +25,14 @@ public class AddExerciseToWorkoutActivity extends AppCompatActivity
     private Intent intent;
     private int workout_id;
 
-    private Context mContext;
+    private Context context;
     private ArrayList<Exercises> exercises;
     private ExercisesDataBaseAccess dataBaseAccess;
     private RecyclerView exercisesRecView;
-    private ExercisesListRecViewAdapter adapter;
+    private ExercisesInAddExerciseToWorkoutRecViewAdapter adapter;
     private SearchView searchView;
+    private Button addBtn;
+    private ArrayList<Integer> exerciseIDtoAdd = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -33,11 +41,84 @@ public class AddExerciseToWorkoutActivity extends AppCompatActivity
         setContentView(R.layout.activity_add_exercise_to_workout);
 
         initViews();
+
+        exercisesRecView.setAdapter(adapter);
+        exercisesRecView.setLayoutManager(new LinearLayoutManager(this));
+
+        dataBaseAccess = ExercisesDataBaseAccess.getInstance(this);
+        dataBaseAccess.open();
+        exercises = dataBaseAccess.getAllExercises();
+        dataBaseAccess.close();
+        adapter.setExercises(exercises);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+        {
+            @Override
+            public boolean onQueryTextSubmit(String query)
+            {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText)
+            {
+                dataBaseAccess.open();
+                exercises = dataBaseAccess.filterExercisesInSearchField(newText);
+                dataBaseAccess.close();
+                adapter.setExercises(exercises);
+                return false;
+            }
+        });
+
+        //Adding all selected exercises to workout and exiting this activity
+        addBtn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                addExercises();
+
+                //finish();
+            }
+        });
     }
 
     void initViews()
     {
         intent = getIntent();
         workout_id = intent.getIntExtra("WORKOUT_ID",-1);
+        exercisesRecView = findViewById(R.id.add_exercise_to_workout_recView);
+        searchView = findViewById(R.id.add_exercise_to_workout_searchView);
+        addBtn = findViewById(R.id.add_exercise_to_workout_addBtn);
+
+        adapter = new ExercisesInAddExerciseToWorkoutRecViewAdapter();
+    }
+
+    void addExercises()
+    {
+        new AlertDialog.Builder(AddExerciseToWorkoutActivity.this)
+                .setTitle("Warning")
+                .setMessage("Do you want to add selected exercises with default amount of " +
+                        "sets and reps or define your own?")
+                .setNegativeButton("Default", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        //TODO: Define method for adding exercises with default amounts of reps and sets
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton("Custom", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        dialog.cancel();
+                    }
+                })
+                .show();
+
+        exerciseIDtoAdd = ExercisesInAddExerciseToWorkoutRecViewAdapter.exerciseIDtoAdd;
     }
 }

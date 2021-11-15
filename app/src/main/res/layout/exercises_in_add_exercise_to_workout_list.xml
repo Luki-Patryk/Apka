@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/exercise_list_layout">
+    android:id="@+id/exercises_in_add_exercise_to_workout_list">
 
     <RelativeLayout
-        android:id="@+id/relativeLayout"
+        android:id="@+id/exercise_in_add_exercise_to_workout_RelativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -16,11 +16,20 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="10dp">
 
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/exercise_add_to_workout_checkBox"
+            android:layout_centerVertical="true"
+            android:checked="false"/>
+
         <ImageView
             android:id="@+id/exercise_in_add_exercise_to_workout_image"
             android:layout_width="86dp"
             android:layout_height="85dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/ic_launcher"
+            android:layout_toRightOf="@+id/exercise_add_to_workout_checkBox"/>
 
         <TextView
             android:id="@+id/exercise_in_add_exercise_to_workout_name"
@@ -42,8 +51,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="20dp"
             android:layout_toRightOf="@+id/exercise_in_add_exercise_to_workout_image"
-            android:text="Exercises type"
-            android:textStyle="italic"/>
+            android:text="Exercises type"/>
 
     </RelativeLayout>
 

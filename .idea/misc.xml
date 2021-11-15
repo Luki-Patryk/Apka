@@ -3,9 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Patryk/Programowanie/Android Studio/Projekty/Apka/app/src/main/res/layout/activity_add_exercise_to_workout.xml" value="0.264" />
+        <entry key="..\:/Patryk/Programowanie/Android Studio/Projekty/Apka/app/src/main/res/layout/activity_exercises_filter_menu.xml" value="0.22708333333333333" />
         <entry key="..\:/Patryk/Programowanie/Android Studio/Projekty/Apka/app/src/main/res/layout/activity_workout_details.xml" value="0.264" />
+        <entry key="..\:/Patryk/Programowanie/Android Studio/Projekty/Apka/app/src/main/res/layout/exercises_in_add_exercise_to_workout_list.xml" value="0.4" />
         <entry key="..\:/Patryk/Programowanie/Android Studio/Projekty/Apka/app/src/main/res/layout/exercises_in_workout_details_list.xml" value="0.4" />
         <entry key="..\:/Patryk/Programowanie/Android Studio/Projekty/Apka/app/src/main/res/layout/exercises_list.xml" value="0.1308876811594203" />
+        <entry key="..\:/Patryk/Programowanie/Android Studio/Projekty/Apka/app/src/main/res/layout/fragment_exercises.xml" value="0.264" />
         <entry key="..\:/Patryk/Programowanie/Android Studio/Projekty/Apka/app/src/main/res/layout/fragment_user_workouts.xml" value="0.1" />
         <entry key="..\:/Patryk/Programowanie/Android Studio/Projekty/Apka/app/src/main/res/layout/workouts_list.xml" value="0.264" />
         <entry key="..\:/Programowanie/Android_Studio_Projects/Apka/app/src/main/res/layout/activity_add_exercise_to_workout.xml" value="0.33" />

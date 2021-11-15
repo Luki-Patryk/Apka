@@ -58,9 +58,9 @@ public class ExercisesInWorkoutDetailsRecViewAdapter extends RecyclerView.Adapte
         public ViewHolder(@NonNull View itemView)
         {
             super(itemView);
-            exerciseImage = itemView.findViewById(R.id.exercise_in_workoutDetails_image);
-            exerciseName = itemView.findViewById(R.id.exercise_in_workoutDetails_name);
-            exerciseType = itemView.findViewById(R.id.exercise_in_workoutDetails_type);
+            exerciseImage = itemView.findViewById(R.id.exercise_in_add_exercise_to_workout_image);
+            exerciseName = itemView.findViewById(R.id.exercise_in_add_exercise_to_workout_name);
+            exerciseType = itemView.findViewById(R.id.exercise_in_add_exercise_to_workout_type);
             exerciseRepsSets = itemView.findViewById(R.id.exercise_in_workoutDetails_reps);
         }
     }

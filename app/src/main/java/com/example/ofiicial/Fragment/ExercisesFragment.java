@@ -1,6 +1,5 @@
 package com.example.ofiicial.Fragment;
 
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.ofiicial.EXERCISES.ExerciseAdd;
@@ -39,7 +39,7 @@ public class ExercisesFragment extends Fragment
     private com.example.ofiicial.EXERCISES.ExercisesDataBaseAccess dataBaseAccess;
     private RecyclerView exercisesRecView;
     private ExercisesListRecViewAdapter adapter;
-    private EditText search;
+    private SearchView search;
     private Button addExerciseBtn, filterExercisesBtn;
 
     //Enum type for state of sorting when filter Activity is called
@@ -65,7 +65,7 @@ public class ExercisesFragment extends Fragment
         adapter = new ExercisesListRecViewAdapter();
 
         exercisesRecView = view.findViewById(R.id.exercisesListRecView);
-        search = view.findViewById(R.id.search_exercises);
+        search = view.findViewById(R.id.search_exercises_in_exercises_fragment);
         addExerciseBtn = view.findViewById(R.id.btn_add_exercise);
         filterExercisesBtn = view.findViewById(R.id.btn_filter_exercises);
 
@@ -81,28 +81,22 @@ public class ExercisesFragment extends Fragment
 
 
         //Called when text changes in search
-        search.addTextChangedListener(new TextWatcher()
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener()
         {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after)
+            public boolean onQueryTextSubmit(String query)
             {
-
+                return false;
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count)
+            public boolean onQueryTextChange(String newText)
             {
                 dataBaseAccess.open();
-                //setting exercises on filtered list with s passed which is actual text converted to string
-                exercises = dataBaseAccess.filterExercisesInSearchField(s.toString());
+                exercises = dataBaseAccess.filterExercisesInSearchField(newText);
                 dataBaseAccess.close();
                 adapter.setExercises(exercises);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s)
-            {
-
+                return false;
             }
         });
 
@@ -190,6 +184,7 @@ public class ExercisesFragment extends Fragment
     @Override
     public void onStart()
     {
+        super.onStart();
         dataBaseAccess.open();
         exercises = dataBaseAccess.getAllExercises();
         dataBaseAccess.close();

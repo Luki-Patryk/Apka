@@ -12,7 +12,7 @@
         android:text="Choose exercise to add to your workout"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="10dp"
         android:textSize="18dp"
         android:id="@+id/add_exercise_to_workout_title_textView"/>
 
@@ -21,16 +21,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/add_exercise_to_workout_title_textView"
-        android:layout_marginTop="10dp"/>
-    
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/add_exercise_to_workout_searchView"
-        android:layout_marginTop="10dp"
         android:layout_marginHorizontal="10dp"
-        android:id="@+id/add_exercise_to_workout_recView"/>
+        android:layout_marginTop="10dp" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/add_exercise_to_workout_searchView">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="10dp"
+            android:id="@+id/add_exercise_to_workout_recView"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_style"
+            android:text="Add exercises"
+            android:id="@+id/add_exercise_to_workout_addBtn"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="15dp"
+            android:layout_centerHorizontal="true"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>

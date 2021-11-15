@@ -17,41 +17,41 @@
         android:layout_marginTop="10dp">
 
         <ImageView
-            android:id="@+id/exercise_in_workoutDetails_image"
+            android:id="@+id/exercise_in_add_exercise_to_workout_image"
             android:layout_width="86dp"
             android:layout_height="85dp"
             android:src="@mipmap/ic_launcher" />
 
         <TextView
-            android:id="@+id/exercise_in_workoutDetails_name"
+            android:id="@+id/exercise_in_add_exercise_to_workout_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
-            android:layout_toRightOf="@+id/exercise_in_workoutDetails_image"
+            android:layout_toRightOf="@+id/exercise_in_add_exercise_to_workout_image"
             android:text="Exercise name"
             android:textSize="20dp"
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/exercise_in_workoutDetails_type"
+            android:id="@+id/exercise_in_add_exercise_to_workout_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/exercise_in_workoutDetails_name"
+            android:layout_below="@+id/exercise_in_add_exercise_to_workout_name"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="20dp"
-            android:layout_toRightOf="@+id/exercise_in_workoutDetails_image"
+            android:layout_toRightOf="@+id/exercise_in_add_exercise_to_workout_image"
             android:text="Exercises type"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/exercise_in_workoutDetails_reps"
-            android:layout_below="@+id/exercise_in_workoutDetails_name"
+            android:layout_below="@+id/exercise_in_add_exercise_to_workout_name"
             android:text="Reps"
             android:layout_marginTop="20dp"
-            android:layout_toRightOf="@+id/exercise_in_workoutDetails_type"
+            android:layout_toRightOf="@+id/exercise_in_add_exercise_to_workout_type"
             android:layout_marginLeft="20dp"/>
 
     </RelativeLayout>
