@@ -66,4 +66,17 @@ public class UserWorkoutsFragment extends Fragment
 
         return view;
     }
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        dataBaseAccess.open();
+        suggestedWorkouts = dataBaseAccess.getSuggestedWorkoutsAtoZ();
+        userCreatedWorkouts = dataBaseAccess.getUserCreatedWorkoutsAtoZ();
+        dataBaseAccess.close();
+
+        suggestedWorkoutsAdapter.setWorkouts(suggestedWorkouts);
+        userCreatedWorkoutsAdapter.setWorkouts(userCreatedWorkouts);
+    }
 }

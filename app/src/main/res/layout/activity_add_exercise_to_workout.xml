@@ -31,20 +31,20 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginHorizontal="10dp"
             android:id="@+id/add_exercise_to_workout_recView"/>
 
         <Button
+            android:id="@+id/add_exercise_to_workout_addBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_style"
-            android:text="Add exercises"
-            android:id="@+id/add_exercise_to_workout_addBtn"
             android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="15dp"
-            android:layout_centerHorizontal="true"/>
+            android:background="@drawable/button_style"
+            android:text="Add exercises" />
 
     </RelativeLayout>
 

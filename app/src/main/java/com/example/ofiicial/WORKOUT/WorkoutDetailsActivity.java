@@ -120,4 +120,16 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
             dataBaseAccess.close();
         }
     };
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        dataBaseAccess.open();
+        workout = dataBaseAccess.getWorkoutById(workout_id);
+        exercisesCountTextView.setText("Exercises count: " + String.valueOf(workout.getExercises_count()));
+        exerciseByWorkouts = dataBaseAccess.getExercisesByWorkoutAtoZ(workout_id);
+        exercisesInWorkoutDetailsAdapter.setExerciseByWorkouts(exerciseByWorkouts);
+        dataBaseAccess.close();
+    }
 }

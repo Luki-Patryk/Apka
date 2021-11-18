@@ -238,6 +238,25 @@ public class ExercisesDataBaseAccess
         return returnList;
     }
 
+    //Getting size of exercises table
+    public int getExercisesCount()
+    {
+        String queryString = "SELECT * FROM " + EXERCISES_TABLE;
+        int count = 0;
+
+        Cursor cursor = database.rawQuery(queryString, null);
+
+        if(cursor.moveToFirst())
+        {
+            do
+            {
+                count++;
+            }while (cursor.moveToNext());
+        }
+
+        return count;
+    }
+
     //Getting all exercises based on filter
     public ArrayList<Exercises> filterExercisesInSearchField(String filter)
     {
@@ -345,7 +364,7 @@ public class ExercisesDataBaseAccess
         {
             ContentValues values = new ContentValues();
             values.put("exercise_type", type);
-            values.put("is_original", 0);
+            values.put("is_type_original", 0);
 
             database.insert(EXERCISE_TYPE_TABLE, null, values);
 
@@ -809,5 +828,53 @@ public class ExercisesDataBaseAccess
         cursor.close();
 
         return exercises_count;
+    }
+
+    //Add exercises to workout by passed workout id and list of exercises id's
+    public void AddExercisesToWorkout(int workoutID, ArrayList<Integer> exercisesID)
+    {
+        int exercises_count = 0;
+
+        //Loop through all exercises to add, but check if combination of exerciseID and workoutId
+        //doesn't already exists in database, because this is our primary key to this table
+        for(int i = 0; i < exercisesID.size(); i++)
+        {
+            String queryString = "SELECT * FROM " + WORKOUT_LIST_TABLE + " " +
+                    "WHERE " + WORKOUT_LIST_TABLE_WORKOUT_ID + " = " + workoutID + " " +
+                    "AND " + WORKOUT_LIST_TABLE_EXERCISE_ID + " = " + exercisesID.get(i);
+
+            Cursor cursor = database.rawQuery(queryString, null);
+
+            if(!cursor.moveToFirst())
+            {
+                ContentValues values = new ContentValues();
+                values.put("workout_id", workoutID);
+                values.put("exercise_id", exercisesID.get(i));
+                values.put("exercise_sets", 3);
+                values.put("exercise_reps", 8);
+
+                database.insert(WORKOUT_LIST_TABLE, null, values);
+
+                exercises_count++;
+            }
+
+        }
+
+        String queryString = "SELECT " + WORKOUT_EXERCISES_COUNT + " " +
+                "FROM " + WORKOUT_TABLE + " " +
+                "WHERE " + WORKOUT_TABLE_ID + " = " + workoutID;
+
+        Cursor cursor = database.rawQuery(queryString, null);
+
+        if(cursor.moveToFirst())
+        {
+            exercises_count += cursor.getInt(0);
+        }
+
+        ContentValues values = new ContentValues();
+        values.put("exercises_count", exercises_count);
+        database.update(WORKOUT_TABLE, values, "id == " + workoutID, null);
+
+        cursor.close();
     }
 }

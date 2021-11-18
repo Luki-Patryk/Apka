@@ -15,7 +15,6 @@ import android.widget.SearchView;
 
 import com.example.ofiicial.EXERCISES.Exercises;
 import com.example.ofiicial.EXERCISES.ExercisesDataBaseAccess;
-import com.example.ofiicial.EXERCISES.ExercisesListRecViewAdapter;
 import com.example.ofiicial.R;
 
 import java.util.ArrayList;
@@ -43,7 +42,7 @@ public class AddExerciseToWorkoutActivity extends AppCompatActivity
         initViews();
 
         exercisesRecView.setAdapter(adapter);
-        exercisesRecView.setLayoutManager(new LinearLayoutManager(this));
+        exercisesRecView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         dataBaseAccess = ExercisesDataBaseAccess.getInstance(this);
         dataBaseAccess.open();
@@ -76,9 +75,7 @@ public class AddExerciseToWorkoutActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                addExercises();
-
-                //finish();
+                addExercisesButtonPress();
             }
         });
     }
@@ -94,31 +91,68 @@ public class AddExerciseToWorkoutActivity extends AppCompatActivity
         adapter = new ExercisesInAddExerciseToWorkoutRecViewAdapter();
     }
 
-    void addExercises()
+    void addExercisesButtonPress()
     {
-        new AlertDialog.Builder(AddExerciseToWorkoutActivity.this)
-                .setTitle("Warning")
-                .setMessage("Do you want to add selected exercises with default amount of " +
-                        "sets and reps or define your own?")
-                .setNegativeButton("Default", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which)
+        //Display warning when user don't have any exercises selected
+        if(ExercisesInAddExerciseToWorkoutRecViewAdapter.exerciseIDtoAdd.size()==0)
+        {
+            new AlertDialog.Builder(AddExerciseToWorkoutActivity.this)
+                    .setTitle("Warning")
+                    .setMessage("You don't have any selected exercises to add")
+                    .setNeutralButton("Okay", new DialogInterface.OnClickListener()
                     {
-                        //TODO: Define method for adding exercises with default amounts of reps and sets
-                        dialog.dismiss();
-                    }
-                })
-                .setPositiveButton("Custom", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which)
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+        }
+
+        else
+        {
+            new AlertDialog.Builder(AddExerciseToWorkoutActivity.this)
+                    .setTitle("Warning")
+                    .setMessage("Do you want to add selected exercises with default amount of " +
+                            "sets and reps or define your own?")
+                    .setNegativeButton("Default", new DialogInterface.OnClickListener()
                     {
-                        dialog.cancel();
-                    }
-                })
-                .show();
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            //TODO: Define method for adding exercises with default amounts of reps and sets
+                            AddExercisesDefault();
+                            dialog.dismiss();
+                        }
+                    })
+                    .setPositiveButton("Custom", new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            AddExercisesCustom();
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+        }
 
         exerciseIDtoAdd = ExercisesInAddExerciseToWorkoutRecViewAdapter.exerciseIDtoAdd;
+    }
+
+    //Adding exercises with default values of sets and reps
+    void AddExercisesDefault()
+    {
+        dataBaseAccess.open();
+        dataBaseAccess.AddExercisesToWorkout(workout_id, exerciseIDtoAdd);
+        dataBaseAccess.close();
+        finish();
+    }
+
+    //Adding exercises with custom values of sets and reps
+    void AddExercisesCustom()
+    {
+
     }
 }

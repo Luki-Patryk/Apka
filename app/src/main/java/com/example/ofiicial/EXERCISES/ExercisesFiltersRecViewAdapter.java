@@ -38,7 +38,7 @@ public class ExercisesFiltersRecViewAdapter extends RecyclerView.Adapter<Exercis
     @Override
     public void onBindViewHolder(@NonNull TypesViewHolder holder, int position)
     {
-        holder.exercise_type_checkBox.setText(exercisesTypes.get(position).getType());
+        holder.exercise_type_checkBox.setText(exercisesTypes.get(holder.getAdapterPosition()).getType());
         holder.exercise_type_checkBox.setChecked(selectAllStateChanged);
 
         //checking if there is show all box checked and if it should be unchecked if not all other boxes are checked
@@ -55,11 +55,11 @@ public class ExercisesFiltersRecViewAdapter extends RecyclerView.Adapter<Exercis
                 //by value of actual checkBox add or remove type from an ArrayList which will be passed to filter function
                 if(isChecked)
                 {
-                    CheckedTypes.add(exercisesTypes.get(position).getType());
+                    CheckedTypes.add(exercisesTypes.get(holder.getAdapterPosition()).getType());
                 }
                 else
                 {
-                    CheckedTypes.remove(exercisesTypes.get(position).getType());
+                    CheckedTypes.remove(exercisesTypes.get(holder.getAdapterPosition()).getType());
                 }
             }
         });

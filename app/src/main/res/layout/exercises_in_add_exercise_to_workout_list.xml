@@ -22,7 +22,8 @@
             android:layout_alignParentLeft="true"
             android:id="@+id/exercise_add_to_workout_checkBox"
             android:layout_centerVertical="true"
-            android:checked="false"/>
+            android:checked="false"
+            android:selectAllOnFocus="false" />
 
         <ImageView
             android:id="@+id/exercise_in_add_exercise_to_workout_image"

@@ -46,6 +46,7 @@ public class ExercisesFilterMenu extends AppCompatActivity
         exercises_types_RecView.setAdapter(adapter);
         exercises_types_RecView.setLayoutManager(new LinearLayoutManager(this));
 
+
         //get all exercise types from database and display it in A to Z order
         dataBaseAccess = ExercisesDataBaseAccess.getInstance(getApplicationContext());
         dataBaseAccess.open();
