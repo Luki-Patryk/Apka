@@ -64,13 +64,13 @@ public class ExercisesInAddExerciseToWorkoutRecViewAdapter extends RecyclerView.
                     isCheckedArray[holder.getAdapterPosition()] = true;
 
                 }
-                else
+                if(!isChecked)
                 {
                     //Checking if exercise is in array, in case of trying to delete object that
                     //doesn't exists
                     if(exerciseIDtoAdd.contains(exercises.get(holder.getAdapterPosition()).getID()))
                     {
-                        exerciseIDtoAdd.remove(exercises.get(holder.getAdapterPosition()).getID());
+                        exerciseIDtoAdd.remove(Integer.valueOf(exercises.get(holder.getAdapterPosition()).getID()));
                     }
 
                     //Tracking which exercises was checked by user to prevent any unwanted checks

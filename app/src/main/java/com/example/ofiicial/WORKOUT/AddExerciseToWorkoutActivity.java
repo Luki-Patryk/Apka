@@ -121,7 +121,7 @@ public class AddExerciseToWorkoutActivity extends AppCompatActivity
                         @Override
                         public void onClick(DialogInterface dialog, int which)
                         {
-                            //TODO: Define method for adding exercises with default amounts of reps and sets
+
                             AddExercisesDefault();
                             dialog.dismiss();
                         }
@@ -131,6 +131,7 @@ public class AddExerciseToWorkoutActivity extends AppCompatActivity
                         @Override
                         public void onClick(DialogInterface dialog, int which)
                         {
+                            //TODO: Define method for adding exercises with custom amounts of reps and sets
                             AddExercisesCustom();
                             dialog.dismiss();
                         }
@@ -145,7 +146,7 @@ public class AddExerciseToWorkoutActivity extends AppCompatActivity
     void AddExercisesDefault()
     {
         dataBaseAccess.open();
-        dataBaseAccess.AddExercisesToWorkout(workout_id, exerciseIDtoAdd);
+        dataBaseAccess.AddExercisesToWorkoutDefault(workout_id, exerciseIDtoAdd);
         dataBaseAccess.close();
         finish();
     }
@@ -153,6 +154,8 @@ public class AddExerciseToWorkoutActivity extends AppCompatActivity
     //Adding exercises with custom values of sets and reps
     void AddExercisesCustom()
     {
-
+        Intent addCustomExerciseIntent = new Intent(getApplicationContext(), AddExerciseToWorkoutWIthCustomAttributesActivity.class);
+        addCustomExerciseIntent.putExtra("EXERCISES_IDS", exerciseIDtoAdd);
+        startActivity(addCustomExerciseIntent);
     }
 }

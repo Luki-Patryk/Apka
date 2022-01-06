@@ -1,14 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WORKOUT.PlansFragment">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/teal_700"
+        android:text="Suggested Plans"
+        android:textAlignment="center"
+        android:textSize="24dp"
+        android:id="@+id/suggested_plans_textView"/>
 
-</FrameLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/suggested_plans_recView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/suggested_plans_textView"
+        android:layout_marginTop="10dp"
+        android:paddingHorizontal="20dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/teal_700"
+        android:text="Your PLans"
+        android:textAlignment="center"
+        android:textSize="24dp"
+        android:id="@+id/user_plans_textView"
+        android:layout_below="@id/suggested_plans_recView"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/user_plans_recView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_plans_textView"
+        android:layout_marginTop="10dp"
+        android:paddingHorizontal="20dp" />
+
+</RelativeLayout>

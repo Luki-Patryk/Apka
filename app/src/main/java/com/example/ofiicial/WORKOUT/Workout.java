@@ -2,10 +2,10 @@ package com.example.ofiicial.WORKOUT;
 
 public class Workout
 {
-    int ID;
-    String workout_name;
-    int estimated_workout_time;
-    int exercises_count;
+    private int ID;
+    private String workout_name;
+    private int estimated_workout_time;
+    private int exercises_count;
     String workout_image_URL;
     boolean isOriginal;
 

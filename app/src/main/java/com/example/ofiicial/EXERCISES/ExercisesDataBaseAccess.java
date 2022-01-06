@@ -831,7 +831,7 @@ public class ExercisesDataBaseAccess
     }
 
     //Add exercises to workout by passed workout id and list of exercises id's
-    public void AddExercisesToWorkout(int workoutID, ArrayList<Integer> exercisesID)
+    public void AddExercisesToWorkoutDefault(int workoutID, ArrayList<Integer> exercisesID)
     {
         int exercises_count = 0;
 
@@ -876,5 +876,119 @@ public class ExercisesDataBaseAccess
         database.update(WORKOUT_TABLE, values, "id == " + workoutID, null);
 
         cursor.close();
+    }
+
+    //Add exercises to workout by passed workout id and list of exercises id's with custom parameters
+    public void AddExercisesToWorkoutCustom(int workoutID, ArrayList<Integer> exercisesID, int sets, int reps)
+    {
+        int exercises_count = 0;
+
+        //Loop through all exercises to add, but check if combination of exerciseID and workoutId
+        //doesn't already exists in database, because this is our primary key to this table
+        for(int i = 0; i < exercisesID.size(); i++)
+        {
+            String queryString = "SELECT * FROM " + WORKOUT_LIST_TABLE + " " +
+                    "WHERE " + WORKOUT_LIST_TABLE_WORKOUT_ID + " = " + workoutID + " " +
+                    "AND " + WORKOUT_LIST_TABLE_EXERCISE_ID + " = " + exercisesID.get(i);
+
+            Cursor cursor = database.rawQuery(queryString, null);
+
+            if(!cursor.moveToFirst())
+            {
+                ContentValues values = new ContentValues();
+                values.put("workout_id", workoutID);
+                values.put("exercise_id", exercisesID.get(i));
+                values.put("exercise_sets", sets);
+                values.put("exercise_reps", reps);
+
+                database.insert(WORKOUT_LIST_TABLE, null, values);
+
+                exercises_count++;
+            }
+
+        }
+
+        String queryString = "SELECT " + WORKOUT_EXERCISES_COUNT + " " +
+                "FROM " + WORKOUT_TABLE + " " +
+                "WHERE " + WORKOUT_TABLE_ID + " = " + workoutID;
+
+        Cursor cursor = database.rawQuery(queryString, null);
+
+        if(cursor.moveToFirst())
+        {
+            exercises_count += cursor.getInt(0);
+        }
+
+        ContentValues values = new ContentValues();
+        values.put("exercises_count", exercises_count);
+        database.update(WORKOUT_TABLE, values, "id == " + workoutID, null);
+
+        cursor.close();
+    }
+
+    //Returns exercises by ID
+    public ArrayList<Exercises> getExercisesByID(ArrayList<Integer> exerciseID)
+    {
+        ArrayList<Exercises> returnList = new ArrayList<>();
+
+        String queryString = "SELECT " + EXERCISES_TABLE_ID + ", " + EXERCISE_NAME + ", " + EXERCISE_TYPE + ", " + EXERCISE_IMAGE_URL + ", " + IS_EXERCISE_ORIGINAL + "\n" +
+                "FROM " +
+                EXERCISES_TABLE + "\n" +
+                "INNER JOIN " + EXERCISE_TYPE_TABLE + "\n" +
+                "ON " + EXERCISE_TYPE_ID + " = " + EXERCISE_TYPE_TABLE_ID + "\n" +
+                "WHERE ";
+
+        //adding every exerciseId to queryString
+        for(int ID: exerciseID)
+        {
+            queryString += EXERCISES_TABLE_ID + " = " + ID + " OR ";
+        }
+
+        //Deleting last OR from queryString
+        queryString = queryString.substring(0, queryString.length()-3);
+
+        //In case of empty array passed get nothing from database
+        if(exerciseID.size() == 0)
+        {
+            queryString = queryString.substring(0, queryString.length()-3);
+            queryString += "WHERE " + EXERCISES_TABLE_ID + " = -1";
+        }
+
+        Cursor cursor = database.rawQuery(queryString, null);
+
+        if(cursor.moveToFirst())
+        {
+            do
+            {
+                int ID = cursor.getInt(0);
+                String exerciseName = cursor.getString(1);
+                String exerciseType = cursor.getString(2);
+                String exerciseImageURL = cursor.getString(3);
+                int isExerciseOriginal = cursor.getInt(4);
+
+                boolean isOriginal;
+
+                //Determining if exercise was originally in database or was created by user
+                switch (isExerciseOriginal)
+                {
+                    case 0:
+                        isOriginal = false;
+                        break;
+                    case 1:
+                        isOriginal = true;
+                        break;
+                    default:
+                        isOriginal = true;
+                        break;
+                }
+
+                Exercises exercise = new Exercises(ID, exerciseName, exerciseType, exerciseImageURL, isOriginal);
+                returnList.add(exercise);
+            }while(cursor.moveToNext());
+        }
+
+        cursor.close();
+
+        return returnList;
     }
 }

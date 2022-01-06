@@ -1,11 +1,13 @@
 package com.example.ofiicial.WORKOUT;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -69,7 +71,23 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
 
         intent = getIntent();
         workout_id = intent.getIntExtra("WORKOUT_ID", -1);
-        //TODO: if workout_id value is 0 create warning because something went wrong
+
+        //Displaying warning and going back to previous activity in case of some mistake
+        if(workout_id <= 0)
+        {
+            new AlertDialog.Builder(WorkoutDetailsActivity.this)
+                    .setTitle("Warning")
+                    .setMessage("Something went wrong, please try again")
+                    .setNeutralButton("Okay", new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            finish();
+                        }
+                    })
+                    .show();
+        }
 
         dataBaseAccess = ExercisesDataBaseAccess.getInstance(this);
         dataBaseAccess.open();
