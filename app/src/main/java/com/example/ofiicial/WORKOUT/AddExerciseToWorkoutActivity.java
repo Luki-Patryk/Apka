@@ -1,5 +1,6 @@
 package com.example.ofiicial.WORKOUT;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -156,6 +157,14 @@ public class AddExerciseToWorkoutActivity extends AppCompatActivity
     {
         Intent addCustomExerciseIntent = new Intent(getApplicationContext(), AddExerciseToWorkoutWIthCustomAttributesActivity.class);
         addCustomExerciseIntent.putExtra("EXERCISES_IDS", exerciseIDtoAdd);
-        startActivity(addCustomExerciseIntent);
+        addCustomExerciseIntent.putExtra("WORKOUT_ID", workout_id);
+        startActivityForResult(addCustomExerciseIntent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        finish();
     }
 }

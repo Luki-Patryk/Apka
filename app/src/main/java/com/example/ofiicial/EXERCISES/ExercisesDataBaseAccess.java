@@ -13,6 +13,7 @@ import com.example.ofiicial.Fragment.ExercisesFragment;
 import com.example.ofiicial.WORKOUT.ExerciseByWorkout;
 import com.example.ofiicial.WORKOUT.Workout;
 
+import java.lang.reflect.GenericArrayType;
 import java.util.ArrayList;
 
 public class ExercisesDataBaseAccess
@@ -878,8 +879,9 @@ public class ExercisesDataBaseAccess
         cursor.close();
     }
 
+    //TODO: check if this exercise doesnt already exists in this workout
     //Add exercises to workout by passed workout id and list of exercises id's with custom parameters
-    public void AddExercisesToWorkoutCustom(int workoutID, ArrayList<Integer> exercisesID, int sets, int reps)
+    public void AddExercisesToWorkoutCustom(int workoutID, ArrayList<Integer> exercisesID, ArrayList<ExerciseByWorkout> exerciseByWorkouts)
     {
         int exercises_count = 0;
 
@@ -898,8 +900,8 @@ public class ExercisesDataBaseAccess
                 ContentValues values = new ContentValues();
                 values.put("workout_id", workoutID);
                 values.put("exercise_id", exercisesID.get(i));
-                values.put("exercise_sets", sets);
-                values.put("exercise_reps", reps);
+                values.put("exercise_sets", exerciseByWorkouts.get(i).getSets());
+                values.put("exercise_reps", exerciseByWorkouts.get(i).getReps());
 
                 database.insert(WORKOUT_LIST_TABLE, null, values);
 

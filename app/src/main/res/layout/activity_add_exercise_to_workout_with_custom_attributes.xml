@@ -10,6 +10,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="80dp"
         android:id="@+id/add_exercise_to_workout_with_custom_attributes_recView"/>
+
+    <Button
+        android:id="@+id/submit_custom_exercises_addBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/button_style"
+        android:text="Submit" />
 
 </RelativeLayout>

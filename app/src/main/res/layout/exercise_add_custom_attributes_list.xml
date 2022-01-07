@@ -9,7 +9,9 @@
 
         <TextView
             android:id="@+id/exercise_name_in_exercise_custom_add_TextView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:textAlignment="center"
+            android:background="@color/purple_200"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
@@ -32,6 +34,7 @@
             android:hint="Sets"
             android:layout_below="@+id/exercise_type_in_exercise_custom_add_TextView"
             android:layout_centerHorizontal="true"
+            android:text="3"
             android:layout_marginTop="15dp"
             android:inputType="numberSigned"
             android:id="@+id/exercise_sets_in_exercise_custom_add_EditText"/>
@@ -42,6 +45,7 @@
             android:hint="Reps"
             android:layout_below="@+id/exercise_sets_in_exercise_custom_add_EditText"
             android:layout_centerHorizontal="true"
+            android:text="8"
             android:layout_marginTop="15dp"
             android:inputType="numberSigned"
             android:id="@+id/exercise_reps_in_exercise_custom_add_EditText"/>

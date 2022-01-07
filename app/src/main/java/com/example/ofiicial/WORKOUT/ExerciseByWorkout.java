@@ -15,6 +15,22 @@ public class ExerciseByWorkout extends Exercises
         this.sets = sets;
     }
 
+    //Copy constructor with sets and reps set to 0
+    public ExerciseByWorkout(Exercises exercise)
+    {
+        super(exercise.getID(), exercise.getExercise_name(), exercise.getExercise_type(), exercise.getImg_URL(), exercise.isIs_original());
+        sets = 0;
+        reps = 0;
+    }
+
+    //Copy constructor
+    public ExerciseByWorkout(Exercises exercise, int sets, int reps)
+    {
+        super(exercise.getID(), exercise.getExercise_name(), exercise.getExercise_type(), exercise.getImg_URL(), exercise.isIs_original());
+        this.sets = sets;
+        this.reps = reps;
+    }
+
     public int getSets()
     {
         return sets;
