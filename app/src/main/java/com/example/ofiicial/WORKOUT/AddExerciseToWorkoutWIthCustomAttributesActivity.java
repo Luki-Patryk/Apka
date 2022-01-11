@@ -1,9 +1,11 @@
 package com.example.ofiicial.WORKOUT;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -67,11 +69,67 @@ public class AddExerciseToWorkoutWIthCustomAttributesActivity extends AppCompatA
     //TODO: Make sure there is no empty exercises
     private void addCustomExercises()
     {
+        boolean isEmpty = checkIfIsntEmpty();
+
+        //If any of sets and reps fields is empty, warn the user
+        if(isEmpty)
+        {
+            new AlertDialog.Builder(this)
+                    .setTitle("Warning")
+                    .setMessage("You must fill all the Sets and Reps fields before adding exercises to workout")
+                    .setNeutralButton("Okay", new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+
+                        }
+                    })
+                    .show();
+
+            return;
+        }
+
+        //checkIfFilled();
+
         dataBaseAccess.open();
         dataBaseAccess.AddExercisesToWorkoutCustom(workout_id, exerciseIDtoAdd, ExerciseCustomAttributesInAddExerciseToWorkoutRecViewAdapter.exerciseByWorkouts);
         dataBaseAccess.close();
         ExercisesInAddExerciseToWorkoutRecViewAdapter.exerciseIDtoAdd.clear();
         setResult(1);
         finish();
+    }
+
+    //Check if any of editText's are empty
+    private boolean checkIfIsntEmpty()
+    {
+        if(ExerciseCustomAttributesInAddExerciseToWorkoutRecViewAdapter.isRepEmpty.contains(false)
+        || ExerciseCustomAttributesInAddExerciseToWorkoutRecViewAdapter.isSetEmpty.contains(false))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    //If any of exercises wasn't edited by user, update it with default values;
+    private void checkIfFilled()
+    {
+        int i = 0;
+        for(ExerciseByWorkout exercise: ExerciseCustomAttributesInAddExerciseToWorkoutRecViewAdapter.exerciseByWorkouts)
+        {
+            if(exercise.getReps() == 0 && exercise.getSets() != 0)
+            {
+                ExerciseCustomAttributesInAddExerciseToWorkoutRecViewAdapter.exerciseByWorkouts.set(i,new ExerciseByWorkout(exercise.getID(), exercise.getExercise_name(), exercise.getExercise_type(), exercise.getImg_URL(), exercise.isIs_original(), exercise.getSets(), 8));
+            }
+            else if(exercise.getSets() == 0 && exercise.getReps() != 0)
+            {
+                ExerciseCustomAttributesInAddExerciseToWorkoutRecViewAdapter.exerciseByWorkouts.set(i,new ExerciseByWorkout(exercise.getID(), exercise.getExercise_name(), exercise.getExercise_type(), exercise.getImg_URL(), exercise.isIs_original(), 3, exercise.getReps()));
+            }
+            else if(exercise.getSets() == 0 && exercise.getReps() == 0)
+            {
+                ExerciseCustomAttributesInAddExerciseToWorkoutRecViewAdapter.exerciseByWorkouts.set(i,new ExerciseByWorkout(exercise.getID(), exercise.getExercise_name(), exercise.getExercise_type(), exercise.getImg_URL(), exercise.isIs_original(), 3, 8));
+            }
+        }
     }
 }

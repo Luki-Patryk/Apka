@@ -15,12 +15,12 @@ public class ExerciseByWorkout extends Exercises
         this.sets = sets;
     }
 
-    //Copy constructor with sets and reps set to 0
+    //Copy constructor with sets and reps set to default values
     public ExerciseByWorkout(Exercises exercise)
     {
         super(exercise.getID(), exercise.getExercise_name(), exercise.getExercise_type(), exercise.getImg_URL(), exercise.isIs_original());
-        sets = 0;
-        reps = 0;
+        sets = 3;
+        reps = 8;
     }
 
     //Copy constructor

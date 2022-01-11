@@ -24,6 +24,10 @@ public class ExerciseCustomAttributesInAddExerciseToWorkoutRecViewAdapter extend
     private ArrayList<Exercises> exercises = new ArrayList<>();
     public static ArrayList<ExerciseByWorkout> exerciseByWorkouts = new ArrayList<>();
 
+    //Lists for tracking if any of EditText's is currently empty
+    public static ArrayList<Boolean> isSetEmpty = new ArrayList<>();
+    public static ArrayList<Boolean> isRepEmpty = new ArrayList<>();
+
     public ExerciseCustomAttributesInAddExerciseToWorkoutRecViewAdapter(){}
 
     @NonNull
@@ -33,9 +37,11 @@ public class ExerciseCustomAttributesInAddExerciseToWorkoutRecViewAdapter extend
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.exercise_add_custom_attributes_list,
                 parent, false);
         ViewHolder vHolder = new ViewHolder(view);
+
         return vHolder;
     }
 
+    //TODO: Jezeli nic nie zmienimy przy cwiczeniu to domyslne wartosci beda 0;
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
@@ -61,12 +67,24 @@ public class ExerciseCustomAttributesInAddExerciseToWorkoutRecViewAdapter extend
                 if(!holder.exerciseSets.getText().toString().isEmpty())
                 {
                     sets = Integer.parseInt(holder.exerciseSets.getText().toString());
+                    isSetEmpty.set(holder.getAdapterPosition(), true);
                 }
+                else
+                {
+                    isSetEmpty.set(holder.getAdapterPosition(), false);
+                }
+
                 if(!holder.exerciseReps.getText().toString().isEmpty())
                 {
                     reps = Integer.parseInt(holder.exerciseReps.getText().toString());
+                    isRepEmpty.set(holder.getAdapterPosition(), true);
+                }
+                else
+                {
+                    isRepEmpty.set(holder.getAdapterPosition(), false);
                 }
 
+                //loop through all elements of exercises list, and update current with values
                 for(ExerciseByWorkout exerc: exerciseByWorkouts)
                 {
                     if(exerc.getExercise_name().equals(holder.exerciseName.getText()))
@@ -100,10 +118,21 @@ public class ExerciseCustomAttributesInAddExerciseToWorkoutRecViewAdapter extend
                 if(!holder.exerciseSets.getText().toString().isEmpty())
                 {
                     sets = Integer.parseInt(holder.exerciseSets.getText().toString());
+                    isSetEmpty.set(holder.getAdapterPosition(), true);
                 }
+                else
+                {
+                    isSetEmpty.set(holder.getAdapterPosition(), false);
+                }
+
                 if(!holder.exerciseReps.getText().toString().isEmpty())
                 {
                     reps = Integer.parseInt(holder.exerciseReps.getText().toString());
+                    isRepEmpty.set(holder.getAdapterPosition(), true);
+                }
+                else
+                {
+                    isRepEmpty.set(holder.getAdapterPosition(), false);
                 }
 
                 for(ExerciseByWorkout exerc: exerciseByWorkouts)
@@ -132,6 +161,13 @@ public class ExerciseCustomAttributesInAddExerciseToWorkoutRecViewAdapter extend
     public void setExercises(ArrayList<Exercises> exercises)
     {
         this.exercises = exercises;
+
+        //Initialize lists with size of exercisesList
+        for(int i = 0; i < getItemCount(); i++)
+        {
+            isRepEmpty.add(true);
+            isSetEmpty.add(true);
+        }
 
         //Adding every exercise to array list with sets and reps
         for(Exercises exerc: exercises)
